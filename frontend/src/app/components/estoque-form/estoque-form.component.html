@@ -5,17 +5,20 @@
         <div class="modal-header">
             <h4>
                 {{ crud | titlecase }} Estoque
-                <span *ngIf="dados.tipo == 'py'">
+                <span *ngIf="dados.tipo == 'py'" [@enterAnimationIcon]>
                     <img src="assets/img/py.svg" class="flag" alt="Paraguai">
                 </span>
-                <span *ngIf="dados.tipo == 'usa'">
+                <span *ngIf="dados.tipo == 'usa'" [@enterAnimationIcon]>
                     <img src="assets/img/usa.svg" class="flag" alt="Estados Unidos">
                 </span>
-                <span *ngIf="dados.tipo == 'br'">
+                <span *ngIf="dados.tipo == 'br'" [@enterAnimationIcon]>
                     <img src="assets/img/br.svg" class="flag" alt="Brasil">
                 </span>
-                <i class="fas fa-sm fa-ship ml-2" *ngIf="dados.tipo_entrega == 'navio'"></i>
-                <i class="fas fa-sm fa-plane ml-2" *ngIf="dados.tipo_entrega == 'aviao'"></i>
+
+                <i class="fas fa-sm fa-ship ml-2" *ngIf="dados.tipo_entrega == 'navio'" [@enterAnimationIcon]></i>
+                <i class="fas fa-sm fa-plane ml-2" *ngIf="dados.tipo_entrega == 'aviao'" [@enterAnimationIcon]></i>
+                
+                <span class="badge badge-success ml-2" *ngIf="dados.und_compradas" [@enterAnimationIcon]>{{ dados.und }}</span>
             </h4>
             <button type="button" class="close" aria-label="Close" (click)="close()">
                 <span aria-hidden="true">&times;</span>
@@ -67,11 +70,17 @@
                                     <option value="vendido">Vendido</option>
                             </select>
                         </div>
-                        <div class="col-sm-3 form-group">
+                        <div class="col-sm-3 form-group" *ngIf="!dados.und_compradas">
                             <label>*Und:</label>
                             <input type="number" required class="form-control" name="und"
                                 [(ngModel)]="dados.und" #und="ngModel"
                                 [ngClass]="{'is-invalid': !und.valid && (und.touched || form.submitted)}" />
+                        </div>
+                        <div class="col-sm-3 form-group" *ngIf="dados.und_compradas">
+                            <label style="font-size: 9pt;">Unds Compradas:</label>
+                            <input type="number" required class="form-control" name="und_compradas"
+                                [(ngModel)]="dados.und_compradas" #und_compradas="ngModel"
+                                [ngClass]="{'is-invalid': !und_compradas.valid && (und_compradas.touched || form.submitted)}" />
                         </div>
                         <div class="col-sm-12 form-group">
                             <label>*Nome:</label>
@@ -211,6 +220,13 @@
                                 <input type="text" class="form-control" id="valor_total" name="valor_total" 
                                     currencyMask 
                                     [(ngModel)]="dados.valor_total" #valor_total="ngModel"
+                                    disabled required>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for="unitario" class="fieldset text-danger">Valor Unitário</label>
+                                <input type="text" class="form-control" id="unitario" name="unitario" 
+                                    currencyMask 
+                                    [(ngModel)]="dados.unitario" #unitario="ngModel"
                                     disabled required>
                             </div>
                         </div>

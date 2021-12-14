@@ -113,7 +113,7 @@ export class ModalProductDadosComponent implements OnInit {
     }
 
     this.dados.preco_venda = this.dados.preco;
-    this.dados.lucro_venda = this.dados.preco - this.dados.valor_total;
+    this.dados.lucro_venda = this.dados.preco - this.dados.unitario;
 
     this.serviceEntrega.createItem(this.dados).subscribe(res => {
       this.message.toastSuccess();
@@ -136,7 +136,7 @@ export class ModalProductDadosComponent implements OnInit {
     }
 
     this.dados.preco_venda = this.dados.preco;
-    this.dados.lucro_venda = this.dados.preco - this.dados.valor_total;
+    this.dados.lucro_venda = this.dados.preco - this.dados.unitario;
 
     this.serviceEntrega.updateItem(this.dados.id, this.dados).subscribe(res => {
       this.message.toastSuccess('Atualizada com sucesso!');
@@ -159,7 +159,7 @@ export class ModalProductDadosComponent implements OnInit {
     }
 
     this.dados.preco_venda = this.dados.preco;
-    this.dados.lucro_venda = this.dados.preco - this.dados.valor_total;
+    this.dados.lucro_venda = this.dados.preco - this.dados.unitario;
 
     this.serviceSale.createItem(this.dados).subscribe(res => {
       this.message.toastSuccess();
@@ -182,7 +182,7 @@ export class ModalProductDadosComponent implements OnInit {
     }
 
     this.dados.preco_venda = this.dados.preco;
-    this.dados.lucro_venda = this.dados.preco - this.dados.valor_total;
+    this.dados.lucro_venda = this.dados.preco - this.dados.unitario;
 
     this.serviceSale.updateItem(this.dados.id, this.dados).subscribe(res => {
       this.message.toastSuccess('Atualizada com sucesso!');
@@ -213,7 +213,7 @@ export class ModalProductDadosComponent implements OnInit {
     this.dados.preco = dados.preco_venda;
     this.dados.und = dados.produto.estoque.und;
     this.dados.path = dados.produto.path;
-    this.dados.valor_total = dados.produto.valor_total;
+    this.dados.unitario = dados.produto.unitario;
     this.dados.name = dados.produto.name;
   }
 
@@ -221,7 +221,7 @@ export class ModalProductDadosComponent implements OnInit {
     this.dados.preco = dados.preco_entrega;
     this.dados.und = dados.produto.estoque.und;
     this.dados.path = dados.produto.path;
-    this.dados.valor_total = dados.produto.valor_total;
+    this.dados.unitario = dados.produto.unitario;
     this.dados.name = dados.produto.name;
     this.dados.qtd_venda = dados.qtd_produto;
   }

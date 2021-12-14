@@ -34,6 +34,14 @@ import { ModalHistoricoComponent } from '../modal-historico/modal-historico.comp
           animate('500ms', style({transform: 'translateY(100%)', opacity: 0}))
         ])
       ]
+    ),
+    trigger(
+      'enterAnimationIcon', [
+        transition(':enter', [
+          style({opacity: 0}),
+          animate('600ms', style({opacity: 1}))
+        ])
+      ]
     )
   ],
   providers: [
@@ -228,7 +236,8 @@ export class EstoqueFormComponent extends ControllerBase {
       total_frete_mia_pjc: 0,
       frete_pjc_gyn: 0,
       total_frete: 0,
-      valor_total: 0
+      valor_total: 0,
+      unitario: 0,
     };
   }
 
@@ -287,8 +296,9 @@ export class EstoqueFormComponent extends ControllerBase {
     this.dados.total_site = totalSite;
     this.dados.total_frete = totalFrete;
     this.dados.valor_total = valorTotal;
+   
+    this.dados.unitario = this.dados.valor_total / this.dados.und;
   }
-
   ngOnDestroy() {
     this.sub.unsubscribe();
   }

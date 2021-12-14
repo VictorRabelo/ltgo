@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  authTokenKey: 'storeCDISession',
+  authTokenKey: 'storeLTGOSession',
   tema: 'tema',
-  apiUrl: "https://api.casadoimportadogo.com/api/v1"
+  apiUrl: "https://api.littletreesgo.com/api/v1"
 };

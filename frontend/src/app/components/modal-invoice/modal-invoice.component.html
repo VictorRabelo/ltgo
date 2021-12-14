@@ -1,0 +1,32 @@
+<form #form="ngForm" (ngSubmit)="submit(form)" (keydown.enter)="$event.preventDefault()" class="card card-load mb-0">
+  <div class="modal-header">
+    <h4>Invoice</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+    
+  <div class="modal-body">
+    <div class="row">
+      <div class="col">
+        <div class="img-link">
+          <img class="img-fluid img-circle" style="cursor: pointer; border-radius: 10px; width: 100%; height: 245px;"
+              [src]="dados.invoice_path? dados.invoice_path:'/assets/img/sem_foto.jpg'" (click)="openPhotoPicker()">
+        </div>
+        <div id="divFile">
+          <input type="file" id="inputProduto" #inputProduto accept="image/x-png,image/jpeg"
+            (change)="handleFileInput($event.target.files)" multiple>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal-footer">
+  
+    <button type="button" class="btn btn-secondary" (click)="close()">Voltar</button>
+    <button type="submit" class="btn btn-success" [disabled]="loading">
+      <i class="fas fa-money-bill"></i> Salvar
+    </button>
+  </div>
+  <div class="card-loader" *ngIf="loading"><i class="fas fa-sync-alt anim-rotate"></i></div>
+</form>

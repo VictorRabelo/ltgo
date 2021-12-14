@@ -94,24 +94,24 @@ class EstoqueRepository extends AbstractRepository implements EstoqueRepositoryI
                 $frete = Frete::create(['total_frete' => $request->total_frete]);
                     
                 $produto = Produto::create([
-                    'categoria_id' => $categoria->id_categoria,
-                    'data_id' => $data->id_data,
-                    'valor_id' => $valor->id_valor,
-                    'frete_id' => $frete->id_frete,
+                    'categoria_id'  => $categoria->id_categoria,
+                    'data_id'       => $data->id_data,
+                    'valor_id'      => $valor->id_valor,
+                    'frete_id'      => $frete->id_frete,
                     'fornecedor_id' => $fornecedor->id_fornecedor,
-                    'path' => $pathFile,
-                    'name' => $request->name,
-                    'descricao' => $request->descricao,
-                    'preco' => $request->preco,
-                    'valor_total' => $request->valor_total,
-                    'tipo' => $request->tipo,
-                    'tipo_entrega' => $request->tipo_entrega,
-                    'status' => $request->status
+                    'path'          => $pathFile,
+                    'name'          => $request->name,
+                    'descricao'     => $request->descricao,
+                    'preco'         => $request->preco,
+                    'valor_total'   => $request->valor_total,
+                    'tipo'          => $request->tipo,
+                    'tipo_entrega'  => $request->tipo_entrega,
+                    'status'        => $request->status
                 ]);
 
                 Estoque::create([
                     'produto_id' => $produto->id_produto,
-                    'und' => $request->und,
+                    'und'        => $request->und,
                 ]);
 
                 return ['message' => 'Cadastrado com sucesso!', 'code' => 200];
@@ -122,36 +122,36 @@ class EstoqueRepository extends AbstractRepository implements EstoqueRepositoryI
                 
                 $valor = Valor::create([
                     'valor_site' => $request->valor_site,
-                    'dolar' => $request->dolar,
+                    'dolar'      => $request->dolar,
                     'total_site' => $request->total_site
                 ]);
                 
                 $frete = Frete::create([
-                    'frete_mia_pjc' => $request->frete_mia_pjc,
-                    'dolar_frete' => $request->dolar_frete,
+                    'frete_mia_pjc'       => $request->frete_mia_pjc,
+                    'dolar_frete'         => $request->dolar_frete,
                     'total_frete_mia_pjc' => $request->total_frete_mia_pjc,
-                    'frete_pjc_gyn' => $request->frete_pjc_gyn,
-                    'total_frete' => $request->total_frete
+                    'frete_pjc_gyn'       => $request->frete_pjc_gyn,
+                    'total_frete'         => $request->total_frete
                 ]);
                 
                 $produto = Produto::create([
-                    'categoria_id' => $categoria->id_categoria,
-                    'data_id' => $data->id_data,
-                    'valor_id' => $valor->id_valor,
-                    'frete_id' => $frete->id_frete,
+                    'categoria_id'  => $categoria->id_categoria,
+                    'data_id'       => $data->id_data,
+                    'valor_id'      => $valor->id_valor,
+                    'frete_id'      => $frete->id_frete,
                     'fornecedor_id' => $fornecedor->id_fornecedor,
-                    'path' => $pathFile,
-                    'name' => $request->name,
-                    'descricao' => $request->descricao,
-                    'preco' => $request->preco,
-                    'valor_total' => $request->valor_total,
-                    'tipo' => $request->tipo,
-                    'status' => $request->status
+                    'path'          => $pathFile,
+                    'name'          => $request->name,
+                    'descricao'     => $request->descricao,
+                    'preco'         => $request->preco,
+                    'valor_total'   => $request->valor_total,
+                    'tipo'          => $request->tipo,
+                    'status'        => $request->status
                 ]);
 
                 Estoque::create([
                     'produto_id' => $produto->id_produto,
-                    'und' => $request->und
+                    'und'        => $request->und
                 ]);
 
                 return ['message' => 'Cadastrado com sucesso!', 'code' => 200];
@@ -160,27 +160,27 @@ class EstoqueRepository extends AbstractRepository implements EstoqueRepositoryI
             
             case 'py':
                 
-                $valor = Valor::create(['valor_site' => $request->valor_site, 'dolar' => $request->dolar, 'total_site' => $request->total_site]);
+                $valor = Valor::create(['valor_site'    => $request->valor_site, 'dolar' => $request->dolar, 'total_site' => $request->total_site]);
                 $frete = Frete::create(['frete_pjc_gyn' => $request->frete_pjc_gyn]);
                 
                 $produto = Produto::create([
-                    'categoria_id' => $categoria->id_categoria,
-                    'data_id' => $data->id_data,
-                    'valor_id' => $valor->id_valor,
-                    'frete_id' => $frete->id_frete,
+                    'categoria_id'  => $categoria->id_categoria,
+                    'data_id'       => $data->id_data,
+                    'valor_id'      => $valor->id_valor,
+                    'frete_id'      => $frete->id_frete,
                     'fornecedor_id' => $fornecedor->id_fornecedor,
-                    'path' => $pathFile,
-                    'name' => $request->name,
-                    'descricao' => $request->descricao,
-                    'preco' => $request->preco,
-                    'valor_total' => $request->valor_total,
-                    'tipo' => $request->tipo,
-                    'status' => $request->status
+                    'path'          => $pathFile,
+                    'name'          => $request->name,
+                    'descricao'     => $request->descricao,
+                    'preco'         => $request->preco,
+                    'valor_total'   => $request->valor_total,
+                    'tipo'          => $request->tipo,
+                    'status'        => $request->status
                 ]);
 
                 Estoque::create([
                     'produto_id' => $produto->id_produto,
-                    'und' => $request->und
+                    'und'        => $request->und
                 ]);
                 
                 return ['message' => 'Cadastrado com sucesso!', 'code' => 200];

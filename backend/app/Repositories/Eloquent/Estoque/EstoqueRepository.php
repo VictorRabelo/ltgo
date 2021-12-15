@@ -270,8 +270,16 @@ class EstoqueRepository extends AbstractRepository implements EstoqueRepositoryI
             return false;
         }
 
-        $dados->produto()->first()->delete();
+        $dadosProduto = $dados->produto()->first();
+        if ($dadosProduto->path) {
+            $this->tools->_deletePhotoIfExists($dadosProduto->path);
+        }
 
+        if ($dadosProduto->invoice_path) {
+            $this->tools->_deletePhotoIfExists($dadosProduto->invoice_path);
+        }
+
+        $dadosProduto->delete();
         $dados->delete();
 
         return true;

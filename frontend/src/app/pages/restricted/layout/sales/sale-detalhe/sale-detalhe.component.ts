@@ -88,7 +88,7 @@ export class SaleDetalheComponent implements OnInit {
       this.vendaCurrent.debitar = 0.00;
       this.vendaCurrent.pagamento = '';
       this.vendaCurrent.status = '';
-      this.vendaCurrent.caixa = '';
+      this.vendaCurrent.caixa = 'geral';
     } else {
       this.vendaCurrent.debitar = 0.00;
     }

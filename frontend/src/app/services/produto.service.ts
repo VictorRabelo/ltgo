@@ -54,8 +54,8 @@ export class ProdutoService {
     return this.http.post<any>(`${environment.apiUrl}/produtos/masculino`, store);
   }
 
-  update(update: any){
-    return this.http.put<any>(`${environment.apiUrl}/produtos/${update.id}`, update);
+  update(id: number, update: any){
+    return this.http.put<any>(`${environment.apiUrl}/produtos/${id}`, update);
   }
 
   delete(id: number){

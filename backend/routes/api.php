@@ -87,6 +87,19 @@ Route::group(['prefix' =>'/v1'], function() {
 
     });
     
+    Route::group(['prefix' =>'/historicos'], function() {
+        
+        Route::get('/','Historico\HistoricoController@index')->middleware(['auth:api', 'scope:admin']);
+        Route::get('/{id}','Historico\HistoricoController@show')->middleware(['auth:api', 'scope:admin']);
+        
+        Route::post('/','Historico\HistoricoController@store')->middleware(['auth:api', 'scope:admin']);
+        
+        Route::put('/{id}','Historico\HistoricoController@update')->middleware(['auth:api', 'scope:admin']);
+        
+        Route::delete('/{id}','Historico\HistoricoController@destroy')->middleware(['auth:api', 'scope:admin']);
+
+    });
+    
     Route::group(['prefix' =>'/produtos'], function() {
         
         Route::get('/','Produto\ProdutoController@index')->middleware(['auth:api', 'scope:admin']);

@@ -2,16 +2,15 @@ import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { ControllerBase } from '@app/controller/controller.base';
 import { Logout } from '@app/core/actions/auth.action';
-import { AuthService } from '@app/services/auth.service';
 import { MessageService } from '@app/services/message.service';
 import { UserService } from '@app/services/user.service';
 import { environment } from '@env/environment';
 import { select, Store } from '@ngrx/store';
 import { currentUser } from '@app/core/selectors/auth.selector';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { animate, style, transition, trigger } from '@angular/animations';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalAlterPasswordComponent } from '@app/components/modal-alter-password/modal-alter-password.component';
+import { enterAnimationIcon } from '@app/animations';
 
 declare let $: any;
 
@@ -19,16 +18,7 @@ declare let $: any;
   selector: 'app-nav-top',
   templateUrl: './nav-top.component.html',
   styleUrls: ['./nav-top.component.css'],
-  animations: [
-    trigger(
-      'enterAnimation', [
-        transition(':enter', [
-          style({opacity: 0}),
-          animate('600ms', style({opacity: 1}))
-        ])
-      ]
-    )
-  ],
+  animations: [ enterAnimationIcon ],
   providers: [ MessageService ]
 })
 export class NavTopComponent extends ControllerBase {

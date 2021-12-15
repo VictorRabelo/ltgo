@@ -15,5 +15,6 @@ interface ProdutoRepositoryInterface extends CrudRepositoryInterface
     public function vendidos();
     public function storeDolarFeminino($dados);
     public function storeDolarMasculino($dados);
+    public function updateProduto($dados, $id);
     public function create(Request $request);
 }

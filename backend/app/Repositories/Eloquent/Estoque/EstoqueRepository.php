@@ -59,6 +59,7 @@ class EstoqueRepository extends AbstractRepository implements EstoqueRepositoryI
         }
         
         $dados->path = $this->tools->getUrlFile($dados->path);
+        $dados->invoice_path = $this->tools->getUrlFile($dados->invoice_path);
              
         return $dados;
     }
@@ -103,11 +104,17 @@ class EstoqueRepository extends AbstractRepository implements EstoqueRepositoryI
                     'name'          => $request->name,
                     'descricao'     => $request->descricao,
                     'preco'         => $request->preco,
+                    'unitario'      => $request->unitario,
+                    'und_compradas' => $request->und,
                     'valor_total'   => $request->valor_total,
                     'tipo'          => $request->tipo,
                     'tipo_entrega'  => $request->tipo_entrega,
                     'status'        => $request->status
                 ]);
+
+                if (isset($dados['invoice_file'])) {
+                    $dados['invoice_path'] = $this->tools->parse_file($dados['invoice_file'], $produto->id_produto);
+                }
 
                 Estoque::create([
                     'produto_id' => $produto->id_produto,
@@ -144,10 +151,17 @@ class EstoqueRepository extends AbstractRepository implements EstoqueRepositoryI
                     'name'          => $request->name,
                     'descricao'     => $request->descricao,
                     'preco'         => $request->preco,
+                    'unitario'      => $request->unitario,
+                    'und_compradas' => $request->und,
                     'valor_total'   => $request->valor_total,
                     'tipo'          => $request->tipo,
+                    'tipo_entrega'  => $request->tipo_entrega,
                     'status'        => $request->status
                 ]);
+
+                if (isset($dados['invoice_file'])) {
+                    $dados['invoice_path'] = $this->tools->parse_file($dados['invoice_file'], $produto->id_produto);
+                }
 
                 Estoque::create([
                     'produto_id' => $produto->id_produto,
@@ -173,8 +187,11 @@ class EstoqueRepository extends AbstractRepository implements EstoqueRepositoryI
                     'name'          => $request->name,
                     'descricao'     => $request->descricao,
                     'preco'         => $request->preco,
+                    'unitario'      => $request->unitario,
+                    'und_compradas' => $request->und,
                     'valor_total'   => $request->valor_total,
                     'tipo'          => $request->tipo,
+                    'tipo_entrega'  => $request->tipo_entrega,
                     'status'        => $request->status
                 ]);
 

@@ -25,19 +25,11 @@ class MovitionRepository extends AbstractRepository implements MovitionRepositor
             return ['message' => 'O tipo de movivementação não foi selecionado!', 'code' => 500];
         }
 
-        if ($queryParams['type'] == 'geral') {
+        if ($queryParams['type'] == 'diaria') {
             if (isset($queryParams['date'])) {
                 $query = $this->forDate($queryParams['date'],$queryParams['type']);
             } else {
                 $query = $this->geral($queryParams['type']);
-            }
-        }
-        
-        if ($queryParams['type'] == 'eletronico') {
-            if (isset($queryParams['date'])) {
-                $query = $this->forDate($queryParams['date'],$queryParams['type']);
-            } else {
-                $query = $this->eletronico();
             }
         }
         
@@ -60,14 +52,9 @@ class MovitionRepository extends AbstractRepository implements MovitionRepositor
             $dados = $this->model->whereBetween('data', [$date['inicio'], $date['fim']])->orderBy('data', 'desc')->orderBy('id_movition', 'desc')->get();
         } 
 
-        if ($type == 'geral') {
+        if ($type == 'diaria') {
             $saldoTotal = $this->model->where('status', 'geral')->orderBy('data', 'desc')->orderBy('id_movition', 'desc')->get();
             $dados = $this->model->whereBetween('data', [$date['inicio'], $date['fim']])->where('status', 'geral')->orderBy('data', 'desc')->orderBy('id_movition', 'desc')->get();
-        }
-
-        if ($type == 'eletronico') {
-            $saldoTotal = $this->model->where('status', 'eletronico')->orderBy('data', 'desc')->orderBy('id_movition', 'desc')->get();
-            $dados = $this->model->whereBetween('data', [$date['inicio'], $date['fim']])->where('status', 'eletronico')->orderBy('data', 'desc')->orderBy('id_movition', 'desc')->get();
         }
 
         if (!$dados) {
@@ -104,31 +91,10 @@ class MovitionRepository extends AbstractRepository implements MovitionRepositor
     
     private function geral()
     {
-        $dateYear = $this->dateYear();
-        $dateMonth = $this->dateMonth();
+        $dateNow = $this->dateNow();
 
-        $saldoTotal = $this->model->whereBetween('data', [$dateYear['inicio'], $dateYear['fim']])->where('status', 'geral')->orderBy('data', 'desc')->orderBy('id_movition', 'desc')->get();
-        $dados = $this->model->whereBetween('data', [$dateMonth['inicio'], $dateMonth['fim']])->where('status', 'geral')->orderBy('data', 'desc')->orderBy('id_movition', 'desc')->get();
-
-        if (!$dados) {
-            return ['message' => 'Falha ao procesar dados!', 'code' => 500];
-        }
-
-        return [
-            'dados'      => $dados,
-            'saldoMes'   => $this->tools->calcularEntradaSaida($dados),
-            'saldoTotal' => $this->tools->calcularEntradaSaida($saldoTotal),
-            'month'     => isset($queryParams['date'])? $queryParams['date']:date('m'),
-        ];
-    }
-    
-    private function eletronico()
-    {
-        $dateMonth = $this->dateMonth();
-        $dateYear = $this->dateYear();
-
-        $saldoTotal = $this->model->whereBetween('data', [$dateYear['inicio'], $dateYear['fim']])->where('status', 'eletronico')->orderBy('data', 'desc')->orderBy('id_movition', 'desc')->get();
-        $dados = $this->model->whereBetween('data', [$dateMonth['inicio'], $dateMonth['fim']])->where('status', 'eletronico')->orderBy('data', 'desc')->orderBy('id_movition', 'desc')->get();
+        $saldoTotal = $this->model->where('data', $dateNow)->where('status', 'geral')->orderBy('data', 'desc')->orderBy('id_movition', 'desc')->get();
+        $dados = $this->model->where('data', $dateNow)->where('status', 'geral')->orderBy('data', 'desc')->orderBy('id_movition', 'desc')->get();
 
         if (!$dados) {
             return ['message' => 'Falha ao procesar dados!', 'code' => 500];
@@ -149,7 +115,7 @@ class MovitionRepository extends AbstractRepository implements MovitionRepositor
             'valor' => $dados['valor'],
             'descricao' => $dados['descricao'],
             'tipo' => $dados['tipo'],
-            'status' => $dados['status']
+            'status' => 'geral'
         ];
 
         $res = $this->store($save);

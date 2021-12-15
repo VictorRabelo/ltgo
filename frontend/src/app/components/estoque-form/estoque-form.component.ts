@@ -17,6 +17,7 @@ import { ClienteFormComponent } from '../cliente-form/cliente-form.component';
 import { ModalInvoiceComponent } from '../modal-invoice/modal-invoice.component';
 import { MessageService } from '@app/services/message.service';
 import { ModalHistoricoComponent } from '../modal-historico/modal-historico.component';
+import { enterAnimationIcon } from '@app/animations';
 
 @Component({
   selector: 'app-estoque-form',
@@ -35,14 +36,7 @@ import { ModalHistoricoComponent } from '../modal-historico/modal-historico.comp
         ])
       ]
     ),
-    trigger(
-      'enterAnimationIcon', [
-        transition(':enter', [
-          style({opacity: 0}),
-          animate('600ms', style({opacity: 1}))
-        ])
-      ]
-    )
+    enterAnimationIcon
   ],
   providers: [
     EstoqueService
@@ -106,6 +100,7 @@ export class EstoqueFormComponent extends ControllerBase {
     const modalRef = this.modalCtrl.open(ModalInvoiceComponent, { size: 'md', backdrop: 'static' });
     if(this.dados.id_produto){
       modalRef.componentInstance.id = this.dados.id_produto;
+      modalRef.componentInstance.path = this.dados.invoice_path;
     }
     modalRef.result.then(res => {
       if(res){
@@ -207,7 +202,7 @@ export class EstoqueFormComponent extends ControllerBase {
     this.service.update(this.data, this.dados).subscribe(
       (res: any) => {
         this.message.toastSuccess("Atualização bem sucedido!");
-        this.close(res);
+        this.getById(this.data);
       },
       error => {
         this.loading = false;

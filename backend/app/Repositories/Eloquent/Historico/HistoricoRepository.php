@@ -17,7 +17,7 @@ class HistoricoRepository extends AbstractRepository implements HistoricoReposit
     {
         $dados['data'] = $this->dateNow();
         $dados['produto_id'] = $dados['id'];
-        $dados['comentario'] = isset($dados['historico'])?$dados['historico']:$dados['comentario'];
+        $dados['comentario'] = $dados['message'];
 
         return $this->store($dados);
     }

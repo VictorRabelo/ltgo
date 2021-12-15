@@ -8,15 +8,11 @@ import { environment } from "src/environments/environment";
 })
 export class HistoricoService {
 
-  base_url = environment.apiUrl;
+  base_url = `${environment.apiUrl}/historicos`;
 
   constructor(
     private http: HttpClient
   ) { }
-
-  setEndPoint(endpoint: string) {
-    this.base_url = `${this.base_url}/${endpoint}`;
-  }
 
   getAll(queryParams: any = {}) {
     return this.http.get<any>(`${this.base_url}`, {params: queryParams}).pipe(map(res =>{ return res.response }));
@@ -30,8 +26,8 @@ export class HistoricoService {
       return this.http.post<any>(`${this.base_url}`, store);
   }
 
-  update(update: any){
-    return this.http.put<any>(`${this.base_url}/${update.id}`, update);
+  update(id: number, update: any){
+    return this.http.put<any>(`${this.base_url}/${id}`, update);
   }
 
   delete(id: number){

@@ -32,6 +32,8 @@ class Produto extends Model
         'name', 
         'descricao', 
         'preco', 
+        'unitario', 
+        'und_compradas', 
         'valor_total', 
         'tipo',
         'tipo_entrega',

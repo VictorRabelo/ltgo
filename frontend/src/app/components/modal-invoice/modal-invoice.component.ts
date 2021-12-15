@@ -1,11 +1,10 @@
 import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SubSink } from 'subsink';
-import { VendaService } from '@app/services/venda.service';
 import { MessageService } from '@app/services/message.service';
-import { HistoricoService } from '@app/services/historico.service';
-import { DomSanitizer } from '@angular/platform-browser';
+import { ProdutoService } from '@app/services/produto.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-modal-invoice',
@@ -20,22 +19,18 @@ export class ModalInvoiceComponent implements OnInit, OnDestroy {
   loading: boolean = false;
 
   @Input() id: any;
+  @Input() path: any;
 
   dados: any = {};
-  title: string;
 
   constructor(
     private activeModal: NgbActiveModal,
-    private service: HistoricoService,
+    private service: ProdutoService,
     private message: MessageService,
     private sanitizer: DomSanitizer,
   ) {}
 
-  ngOnInit() {
-    if(this.id){
-      
-    }
-  }
+  ngOnInit() {}
 
   close(params = undefined) {
     this.activeModal.close(params);
@@ -45,15 +40,15 @@ export class ModalInvoiceComponent implements OnInit, OnDestroy {
     
     if (files.length > 0) {
       this.dados.fileInvoice = files[0]
+      
       let reader = new FileReader();
-      reader.readAsDataURL(this.dados.file);
+      reader.readAsDataURL(this.dados.fileInvoice);
       reader.onload = e => {
         let img =  reader.result as string;
-        this.dados.invoice_path = this.sanitizer.bypassSecurityTrustResourceUrl(img);
+        this.path = this.sanitizer.bypassSecurityTrustResourceUrl(img);
         this.dados.fileInvoice = img;
       }
     }
-  
   }
   
   openPhotoPicker() {
@@ -61,22 +56,16 @@ export class ModalInvoiceComponent implements OnInit, OnDestroy {
   }
 
   submit(form: NgForm) {
-    if (!form.valid) {
-      return false;
-    }
-    
     this.loading = true;
 
-    // this.service.update(this.dados.id_venda, dados).subscribe(res => {
-    //   this.close(true);
-    // }, error => {
-    //   console.log(error)
-    //   this.message.toastError(error.message);
-    //   this.loading = false;
-    // }, () => {
-    //   this.loading = false;
-    // });
-
+    this.service.update(this.id, this.dados).subscribe(res => {
+      this.loading = false;
+      this.message.toastSuccess('Atualizada com sucesso!');
+    }, error => {
+      console.log(error)
+      this.message.toastError(error.message);
+      this.loading = false;
+    });
   }
 
   ngOnDestroy() {

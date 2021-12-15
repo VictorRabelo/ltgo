@@ -153,6 +153,29 @@ class ProdutoRepository extends AbstractRepository implements ProdutoRepositoryI
         }
     }
 
+    public function updateProduto($dados, $id) {
+        $dadosProduto = Produto::findOrFail($id);
+        if (empty($dadosProduto)) {
+            return ['message' => 'Produto não encontrado.', 'code' => 404];
+        }
+
+        if (isset($dados['fileInvoice'])) {
+            if($dadosProduto->invoice_path) {
+                $dados['invoice_path'] = $this->tools->parse_file($dados['fileInvoice'], $dadosProduto->name.$dadosProduto->id_produto, $dadosProduto->invoice_path);
+            } else {
+                $dados['invoice_path'] = $this->tools->parse_file($dados['fileInvoice'], $dadosProduto->name.$dadosProduto->id_produto);
+            }
+        }
+
+        $dadosProduto->fill($dados);
+        if (!$dadosProduto->save()) {
+            return ['message' => 'Falha ao atualizar dados!', 'code' => 500];
+        }
+
+        return ['message' => 'Invoice anexada com sucesso.', 'code' => 404];
+
+    }
+
     public function create(Request $request)
     {
         if ($request->hasFile('invoice')) {

@@ -198,7 +198,20 @@ class ProdutoController extends Controller
 
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $dados = $request->all();
+
+            $res = $this->produtoRepository->updateProduto($dados, $id);
+
+            if (isset($res->code) && $res->code == CodeStatusEnum::NOT_FOUND) {
+                return response()->json(['message' => $res->message], $res->code);
+            }
+
+            return response()->json(['response' => $res], 201);
+            
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => $e->getMessage(), 'message' => 'Erro de servidor'], 500);
+        }
     }
 
     public function destroy($id)

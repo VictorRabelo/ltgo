@@ -91,7 +91,7 @@
                                         </td>
                                         <td>{{ estoque.und }}</td>
                                         <td>{{ estoque.name }}</td>
-                                        <td>{{ estoque.valor_total | currency: 'R$' }}</td>
+                                        <td>{{ estoque.unitario | currency: 'R$' }}</td>
                                         <td>{{ estoque.preco | currency: 'R$' }}</td>
                                         <td>{{ (estoque.categoria)? estoque.categoria:'Categoria excluída' }}</td>
                                         <td>{{ (estoque.fornecedor)? estoque.fornecedor:'Fornecedor excluído' }}</td>

@@ -6,17 +6,7 @@ use App\Enums\CodeStatusEnum;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\DB;
-
-use Auth;
-use App\Models\Venda;
-use App\Models\Movition;
-use App\Models\Estoque;
-use App\Models\Cliente;
-use App\Models\Produto;
-use App\Models\ProdutoVenda;
 use App\Repositories\Contracts\Venda\VendaRepositoryInterface;
-use Illuminate\Support\Carbon;
 
 class VendaController extends Controller
 {
@@ -33,8 +23,8 @@ class VendaController extends Controller
             $queryParams = $request->all();
             $res = $this->vendaRepository->index($queryParams);
 
-            if (!$res) {
-                return response()->json(['response' => 'Erro de Servidor'], 500);
+            if (isset($res->code) && $res->code == CodeStatusEnum::ERROR_SERVER) {
+                return response()->json(['message' => $res->message], $res->code);
             }
 
             return response()->json(['response' => $res], 200);

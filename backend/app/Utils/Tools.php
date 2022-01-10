@@ -2,6 +2,8 @@
 
 namespace App\Utils;
 
+use App\Models\Venda;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class Tools
@@ -33,6 +35,81 @@ class Tools
         $total = $entrada - $saida;
 
         return $total;
+    }
+
+    public function calculoVenda($dados)
+    {
+        $totalVendas = Venda::select(DB::raw('sum(total_final) as total'))->get();
+
+        $lucro = 0;
+        $totalMensal = 0;
+        $pago = 0;
+
+        $dataSource = [];
+        foreach ($dados as $item) {
+            
+            $lucro += $item->lucro;
+            $totalMensal += $item->total_final;
+            $pago += $item->pago;
+
+            array_push($dataSource, $item);
+        }
+
+        return [
+            'vendas'       => $dataSource,
+            'totalMensal'  => $totalMensal,
+            'totalVendas'  => $totalVendas[0]['total'],
+            'lucro'        => $lucro,
+            'pago'         => $pago,
+            'data'         => isset($date['inicio'])? $date['inicio']:date('Y-m-d'),
+            'mounth'       => isset($queryParams['date'])? $queryParams['date']:date('m'),
+        ];
+    }
+
+    public function calculoVendaApp($dados)
+    {
+        $totalVendas = Venda::select(DB::raw('sum(total_final) as total'))->get();
+
+        $lucro = 0;
+        $totalMensal = 0;
+        $pago = 0;
+
+        $dataSource = [];
+        foreach ($dados as $item) {
+            
+            $lucro += $item->lucro;
+            $totalMensal += $item->total_final;
+            $pago += $item->pago;
+
+            array_push($dataSource, $item);
+        }
+
+        return [
+            'totalMensal'  => $totalMensal,
+            'totalVendas'  => $totalVendas[0]['total'],
+            'lucro'        => $lucro,
+            'pago'         => $pago,
+            'data'         => isset($date['inicio'])? $date['inicio']:date('Y-m-d'),
+            'mounth'       => isset($queryParams['date'])? $queryParams['date']:date('m'),
+        ];
+    }
+
+    public function somatoriaGeralVendasApp($dadosApp,$dadosApi)
+    {
+        $totalVendas = $dadosApp['totalVendas'] + $dadosApi['totalVendas'];
+        $totalMensal = $dadosApp['totalMensal'] + $dadosApi['totalMensal'];
+
+        $lucro = $dadosApp['lucro'] + $dadosApi['lucro'];
+        $pago = $dadosApp['pago'] + $dadosApi['pago'];
+
+        return [
+            'totalMensal'  => $totalMensal,
+            'totalVendas'  => $totalVendas[0]['total'],
+            'lucro'        => $lucro,
+            'pago'         => $pago,
+            'data'         => isset($date['inicio'])? $date['inicio']:date('Y-m-d'),
+            'mounth'       => isset($queryParams['date'])? $queryParams['date']:date('m'),
+        ];
     }
 
     public function parse_file($file, $path, $file_old = "")

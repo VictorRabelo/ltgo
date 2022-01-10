@@ -93,7 +93,7 @@ class MovitionRepository extends AbstractRepository implements MovitionRepositor
     {
         $dateNow = $this->dateNow();
 
-        $saldoTotal = $this->model->where('data', $dateNow)->where('status', 'geral')->orderBy('data', 'desc')->orderBy('id_movition', 'desc')->get();
+        $saldoTotal = $this->model->where('status', 'geral')->orderBy('data', 'desc')->orderBy('id_movition', 'desc')->get();
         $dados = $this->model->where('data', $dateNow)->where('status', 'geral')->orderBy('data', 'desc')->orderBy('id_movition', 'desc')->get();
 
         if (!$dados) {

@@ -21,6 +21,7 @@ import { ModalMovitionComponent } from './modal-movition/modal-movition.componen
 import { UtilModule } from '@app/util/util.module';
 import { ModalInvoiceComponent } from './modal-invoice/modal-invoice.component';
 import { ModalHistoricoComponent } from './modal-historico/modal-historico.component';
+import { FilterFormComponent } from './filter-form/filter-form.component';
 
 export const customCurrencyMaskConfig = {
   align: "right",
@@ -50,6 +51,7 @@ export const customCurrencyMaskConfig = {
     ModalAlterPasswordComponent,
     ModalInvoiceComponent,
     ModalHistoricoComponent,
+    FilterFormComponent,
   ],
   imports: [
     CommonModule,
@@ -73,6 +75,7 @@ export const customCurrencyMaskConfig = {
     ModalAlterPasswordComponent,
     ModalInvoiceComponent,
     ModalHistoricoComponent,
+    FilterFormComponent,
   ],
   entryComponents: [
     ClienteFormComponent,
@@ -86,6 +89,7 @@ export const customCurrencyMaskConfig = {
     ModalAlterPasswordComponent,
     ModalInvoiceComponent,
     ModalHistoricoComponent,
+    FilterFormComponent,
   ],
 })
 export class ComponentsModule { }

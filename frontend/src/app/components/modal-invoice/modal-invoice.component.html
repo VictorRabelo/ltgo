@@ -24,9 +24,18 @@
   
   <div class="modal-footer">
   
+    <button type="button" class="btn btn-outline-secondary" title="Expandir" (click)="expand()"><i class="fas fa-expand"></i></button>
+    <button type="button" class="btn btn-outline-secondary mr-auto" title="Download" (click)="download()"><i class="fas fa-file-download"></i></button>
     <button type="button" class="btn btn-secondary" (click)="close()">Voltar</button>
     <button type="submit" class="btn btn-success" [disabled]="loading">
       <i class="far fa-paper-plane"></i> Salvar
     </button>
   </div>
 </form>
+
+<div class="modal-invoice">
+  <div class="modal-content-invoice">
+    <img src="/assets/img/sem_foto.jpg" id="modal_img">
+  </div>
+  <span id="bt_close" (click)="closeFullScreen()">&times;</span>
+</div>

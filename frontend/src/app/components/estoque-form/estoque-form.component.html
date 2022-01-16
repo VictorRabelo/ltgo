@@ -80,7 +80,7 @@
                             <label style="font-size: 9pt;">Unds Compradas:</label>
                             <input type="number" required class="form-control" name="und_compradas"
                                 [(ngModel)]="dados.und_compradas" #und_compradas="ngModel"
-                                [ngClass]="{'is-invalid': !und_compradas.valid && (und_compradas.touched || form.submitted)}" />
+                                [ngClass]="{'is-invalid': !und_compradas.valid && (und_compradas.touched || form.submitted)}" disabled/>
                         </div>
                         <div class="col-sm-12 form-group">
                             <label>*Nome:</label>
@@ -260,6 +260,7 @@
         </div>
     
         <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary mr-auto" (click)="calcular()">Calcular</button>
             <button type="button" class="btn btn-secondary" (click)="close()">Voltar</button>
             <button type="submit" class="btn btn-success" [disabled]="loading">
             <div class="spinner-border text-success" role="status" *ngIf="loading">

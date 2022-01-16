@@ -29,14 +29,18 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-4 ml-auto">
+                <div class="col-4 ml-auto" *ngIf="type !== 'historico'">
+                    <label class="text-danger">Total lançamento diários:</label>
+                    <span class="pl-2">{{ saldoTotal | currency: 'R$' }}</span>
+                </div>
+                <div class="col-4 ml-auto" *ngIf="type == 'historico'">
                     <label class="text-danger">Saldo total:</label>
                     <span class="pl-2">{{ saldoTotal | currency: 'R$' }}</span>
                 </div>
-                <div class="col-4" *ngIf="type !== 'historico'">
+                <!-- <div class="col-4" *ngIf="type !== 'historico'">
                     <label class="text-danger">Saldo do mês:</label>
                     <span class="pl-2">{{ saldoMes | currency: 'R$' }}</span>
-                </div>
+                </div> -->
             </div>
             <div class="row">
                 <div class="col-12">

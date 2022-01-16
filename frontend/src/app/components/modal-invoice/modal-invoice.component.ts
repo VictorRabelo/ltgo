@@ -55,6 +55,24 @@ export class ModalInvoiceComponent implements OnInit, OnDestroy {
     this.inputProduto.nativeElement.click();
   }
 
+  download() {
+
+  }
+
+  expand() {
+    let modal = document.querySelector('.modal-invoice');
+    let modalImg = document.querySelector('#modal_img');
+    
+    modalImg.setAttribute('src', this.path);
+    modal.classList.add('modal_active');
+    
+  }
+
+  closeFullScreen() {
+    let modal = document.querySelector('.modal-invoice');
+    modal.classList.remove('modal_active');
+  }
+
   submit(form: NgForm) {
     this.loading = true;
 

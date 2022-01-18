@@ -110,6 +110,10 @@ Route::group(['prefix' =>'/v1'], function() {
         Route::get('/enviados','Produto\ProdutoController@enviados')->middleware(['auth:api', 'scope:admin']);
         Route::get('/vendidos','Produto\ProdutoController@vendidos')->middleware(['auth:api', 'scope:admin']);
         
+        Route::get('/photo-invoice',function ($request) {
+            return response()->json($request);
+        })->middleware(['auth:api', 'scope:admin']);
+        
         Route::get('/{id}','Produto\ProdutoController@show')->middleware(['auth:api', 'scope:admin']);
         
         Route::post('/','Produto\ProdutoController@store')->middleware(['auth:api', 'scope:admin']);

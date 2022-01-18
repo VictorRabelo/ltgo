@@ -65,10 +65,11 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body table-responsive p-0" style="height: 100%;">
-                            <table class="table table-hover text-nowrap">
+                            <table class="table table-hover text-nowrap text-center">
                                 <thead>
                                     <tr>
                                         <th scope="col">Data</th>
+                                        <th scope="col" *ngIf="type !== 'historico'">Lucro</th>
                                         <th scope="col">Valor</th>
                                         <th scope="col">Descrição</th>
                                         <th scope="col" *ngIf="type == 'historico'">Tipo</th>
@@ -79,6 +80,7 @@
                                 <tbody *ngFor="let item of dataSource | filter:term">
                                     <tr [ngClass]="{'tr-saida': item.tipo === 'saida'}">
                                         <td>{{ item.data }}</td>
+                                        <td *ngIf="type !== 'historico'">{{ item.lucro == null? '***':item.lucro | currency: 'R$' }}</td>
                                         <td>{{ item.valor | currency: 'R$' }}</td>
                                         <td>{{ item.descricao }}</td>
                                         <td *ngIf="type == 'historico'">
@@ -98,7 +100,7 @@
                                 </tbody>
                                 <tbody *ngIf="dataSource.length == 0 ">
                                     <tr class="text-center">
-                                        <td [attr.colspan]="type == 'historico'? 6:5">Não há movimentações no momento</td>
+                                        <td [attr.colspan]="type == 'historico'? 6:6">Não há movimentações no momento</td>
                                     </tr>
                                 </tbody>
                             </table>

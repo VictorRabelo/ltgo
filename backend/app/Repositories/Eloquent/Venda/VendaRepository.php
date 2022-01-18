@@ -339,6 +339,7 @@ class VendaRepository extends AbstractRepository implements VendaRepositoryInter
             $movition = Movition::create([
                 'venda_id' => $dados['id_venda'],
                 'data' => $dateNow,
+                'lucro' => $dados['lucro'],
                 'valor' => $dados['debitar'],
                 'descricao' => $dados['cliente'],
                 'tipo' => 'entrada',

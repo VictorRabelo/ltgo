@@ -4,6 +4,8 @@ namespace App\Resolvers;
 
 interface AppResolverInterface
 {
+    public function authLogin($credentials);
+
     public function getVendas($queryParams, $date);
     public function getEntregas($queryParams);
     

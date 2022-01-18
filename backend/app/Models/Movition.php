@@ -12,7 +12,7 @@ class Movition extends Model
     public $timestamps = false;
     
     protected $fillable = [
-        'venda_id', 'data', 'valor', 'descricao', 'tipo', 'status',
+        'venda_id', 'data', 'lucro', 'valor', 'descricao', 'tipo', 'status',
     ];
 
     protected $hidden = [];

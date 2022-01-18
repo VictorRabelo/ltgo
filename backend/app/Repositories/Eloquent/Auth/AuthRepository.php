@@ -3,6 +3,7 @@
 namespace App\Repositories\Eloquent\Auth;
 
 use App\Models\User;
+use App\Services\AppService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -11,7 +12,10 @@ class AuthRepository
 {
 
     public function logar($credentials){
-        
+        if (isset($credentials['app'])) {
+            return (new AppService)->authLogin($credentials);
+        }
+
         if (auth()->attempt($credentials)) {
                 
             $user = auth()->user();

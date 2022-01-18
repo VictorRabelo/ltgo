@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Repositories\Eloquent\AbstractRepository;
 use App\Models\Venda;
+use App\Models\User;
 use App\Resolvers\ApiCdiResolverInterface;
 use App\Resolvers\AppResolverInterface;
 use App\Utils\Messages;
@@ -28,6 +29,32 @@ class AppService extends AbstractRepository implements AppResolverInterface
      * @var ApiCdiResolverInterface
      */
     protected $baseApi = ApiCdiResolverInterface::class;
+
+    public function authLogin($credentials){
+        unset($credentials['app']);
+        
+        $tokenApi = $this->baseApi->authLogin($credentials);
+        
+        if (auth()->attempt($credentials)) {
+                
+            $user = auth()->user();
+            $userCurrent = User::where('id', $user->id)->first();
+                    
+            if($tokenApi) {
+                $userCurrent->update(['tokenApi' => $tokenApi]);
+            }
+
+            $userRole = $user->role()->first();
+            $user->role = $userRole->role;
+            $token = $user->createToken(env('AUTH_TOKEN'), [$userRole->role]);
+            $user->token = $token->accessToken;
+
+            return [
+                'token' => $token, 
+                'user' => $user
+            ];
+        }
+    }
 
     public function getVendas($queryParams, $date){
         

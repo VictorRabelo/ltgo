@@ -11,6 +11,15 @@ class ApiCdiService implements ApiCdiResolverInterface
 {
     private $baseApi = 'http://0.0.0.0:8888/api/v1/app';
 
+    public function authLogin($credentials){
+        $response = Http::post($this->baseApi.'/oauth/login', [
+            'login' => $credentials['login'],
+            'password' => $credentials['password']
+        ]);
+        
+        return $response->json()['token']['accessToken'];
+    }
+
     public function getVendas($queryParams, $date){
         $response = Http::get($this->baseApi.'/vendas', [
             'app' => $queryParams['app'],

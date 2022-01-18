@@ -4,6 +4,8 @@ namespace App\Resolvers;
 
 interface ApiCdiResolverInterface
 {
+    public function authLogin($credentials);
+
     public function getVendas($queryParams, $date);
     public function getEntregas($queryParams);
     

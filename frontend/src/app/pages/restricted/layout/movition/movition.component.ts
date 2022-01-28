@@ -28,7 +28,7 @@ export class MovitionComponent implements OnInit {
   filters: any = { date: '' };
 
   saldoTotal: number = 0;
-  saldoMes: number = 0;
+  lucroTotal: number = 0;
   
   type: string;
 
@@ -71,7 +71,9 @@ export class MovitionComponent implements OnInit {
       this.dataSource = res.dados;
       this.saldoTotal = res.saldoTotal;
       if(this.type !== 'historico'){
-        this.saldoMes = res.saldoMes;
+        this.dataSource.forEach((item) => {
+          this.lucroTotal += item.lucro;
+        })
       }
 
     },error =>{

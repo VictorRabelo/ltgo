@@ -10,6 +10,7 @@ use App\Resolvers\ApiCdiResolverInterface;
 class ApiCdiService implements ApiCdiResolverInterface
 {
     private $baseApi = 'http://0.0.0.0:8888/api/v1/app';
+    // private $baseApi = 'https://api.casadoimportadogo.com/api/v1/app';
 
     public function authLogin($credentials){
         $response = Http::post($this->baseApi.'/oauth/login', [

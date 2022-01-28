@@ -11,11 +11,15 @@ import { ControllerBase } from '@app/controller/controller.base';
 import { MessageService } from '@app/services/message.service';
 import { AuthService } from '@app/services/auth.service';
 import { environment } from '@env/environment';
+import { enterAnimationIcon } from '@app/animations';
 
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.css'],
+  animations: [
+    enterAnimationIcon
+  ],
   encapsulation: ViewEncapsulation.None
 })
 export class SigninComponent extends ControllerBase {
@@ -23,6 +27,9 @@ export class SigninComponent extends ControllerBase {
   loading: boolean  = false;
   loadingOk: boolean  = false;
   loadingError: boolean  = false;
+
+  show: boolean = false;
+  type: string = 'password';
 
   returnUrl: string;
   error = '';
@@ -52,7 +59,7 @@ export class SigninComponent extends ControllerBase {
 
   ngOnInit() {
     // Seta o title da pagina
-    this.title.setTitle('CDI | Login');
+    this.title.setTitle('LTGO | Login');
     
     if(this.param){
       this.message.toastError(this.param, 'Error 401!');
@@ -82,11 +89,7 @@ export class SigninComponent extends ControllerBase {
     this.service.login(this.dados.login, this.dados.password).pipe(first())
       .subscribe(
         (res) => {
-          if(res.message){
-            return this.errorLogin();
-          }
-
-          if(!res.token){
+          if(res == undefined){
             return this.errorLogin();
           }
 
@@ -100,21 +103,31 @@ export class SigninComponent extends ControllerBase {
           this.loading = false;
           this.loadingOk = true;
 
-        },
-        error => {
-          this.errorLogin();
-        },
-        () => {
           setTimeout(() => { 
             this.router.navigate(['/restricted']); 
           }, 1500);
+        },
+        error => {
+          this.errorLogin();
         }
       );
+  }
+
+  public changePassword(){
+    if(!this.show){
+      this.type = 'text';
+      this.show = true;
+    } else {
+      this.show = false;
+      this.type = 'password'
+    }
   }
 
   public errorLogin(): void {
     this.loading = false;
     this.loadingOk = false;
     this.loadingError = true;
+
+    return this.message.toastError('Falha no login')
   }
 }

@@ -39,7 +39,7 @@ class VendaRepository extends AbstractRepository implements VendaRepositoryInter
 
     public function index($queryParams)
     {
-        if (isset($queryParams['app']) && $queryParams['app']) {
+        if (isset($queryParams['app'])) {
             return $this->baseApp->getVendas($queryParams, isset($queryParams['date'])?$queryParams['date']:false);
         }
 
@@ -85,20 +85,19 @@ class VendaRepository extends AbstractRepository implements VendaRepositoryInter
             $item->id_estoque = $item->produto->estoque()->first()->id_estoque;
             $item->preco_venda *= $item->qtd_venda;
             $item->lucro_venda *= $item->qtd_venda;
+            
+            if($dadosVenda->lucro == 0) {
+                $dadosVenda->lucro += $item->lucro_venda;
+            }
         }
+        
         return ['dadosVenda' => $dadosVenda, 'dadosProdutos' => $dadosProdutos];
     }
 
     public function create($dados)
     {
-        if(isset($dados['typeApi']) && $dados['typeApi'] === 'cdi'){
-            return $this->baseApp->postVendas($dados);
-        }
-
-        if (!$dados) {
-            $dados['vendedor_id'] = $this->userLogado()->id;
-            return $this->store($dados);
-        }
+        $dados['vendedor_id'] = $this->userLogado()->id;
+        return $this->store($dados);
     }
 
     public function update($dados, $id)
@@ -160,9 +159,12 @@ class VendaRepository extends AbstractRepository implements VendaRepositoryInter
 
     public function finishVenda($dados)
     {
+        if (isset($dados['app'])) {
+            return $this->baseApp->finishSale($dados);
+        }
 
         if (count($dados['itens']) == 0) {
-            return response()->json(['message' => 'Venda não contem itens!'], 500);
+            return ['message' => 'Venda não contem itens!', 'code' => 500];
         }
 
         $dadosVenda = Venda::where('id_venda', '=', $dados['id_venda'])->first();
@@ -197,6 +199,24 @@ class VendaRepository extends AbstractRepository implements VendaRepositoryInter
         $produto = $dados->produto()->first();
         $dados->produto = $produto;
         $dados->produto->estoque = $produto->estoque()->first();
+        
+        return $dados;
+    }
+    
+    public function showItemApp($id){
+        $dados = ProdutoVenda::where('id', '=', $id)->first();
+        if (!$dados) {
+            return false;
+        }
+        
+        $produto = $dados->produto()->first();
+        $dados->produto = $produto;
+        $entregaItem = $produto->entregaItem()->first();
+        $dados->produto->estoque = $produto->estoque()->first();
+        
+        $dados->produto->und = $entregaItem->qtd_disponivel;
+        $dados->produto->preco = $entregaItem->preco_entrega;
+        $dados->produto->unitario = $entregaItem->preco_entrega;
         
         return $dados;
     }

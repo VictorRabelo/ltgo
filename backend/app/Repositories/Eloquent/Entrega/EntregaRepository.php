@@ -8,6 +8,7 @@ use App\Models\EntregaItem;
 use App\Models\Estoque;
 use App\Repositories\Contracts\Entrega\EntregaRepositoryInterface;
 use App\Repositories\Eloquent\AbstractRepository;
+use App\Resolvers\AppResolverInterface;
 use App\Utils\Messages;
 use App\Utils\Tools;
 use Illuminate\Http\Request;
@@ -26,12 +27,21 @@ class EntregaRepository extends AbstractRepository implements EntregaRepositoryI
     protected $tools = Tools::class;
 
     /**
+     * @var AppResolverInterface
+     */
+    protected $baseApp = AppResolverInterface::class;
+    
+    /**
      * @var Messages
      */
     protected $messages = Messages::class;
 
     public function index($queryParams)
     {
+        if(isset($queryParams['app'])) {
+             return $this->baseApp->getEntregasDisponiveis($queryParams);
+        }
+        
         if(isset($queryParams['date'])) {
             if($queryParams['date'] == 0){
                 $dados = $this->model->with('entregador')->orderBy('id_entrega', 'desc')->get();
@@ -91,7 +101,7 @@ class EntregaRepository extends AbstractRepository implements EntregaRepositoryI
             $item->id_estoque = $item->produto->estoque()->first()->id_estoque;
             $item->preco_entrega *= $item->qtd_produto;
             $item->lucro_entrega *= $item->qtd_produto;
-            $dadosEntrega->qtd_disponiveis += $item->qtd_produto;
+            $dadosEntrega->qtd_disponiveis += $item->qtd_disponivel;
         }
 
         return ['dadosEntrega' => $dadosEntrega, 'dadosProdutos' => $dadosProdutos];
@@ -178,6 +188,12 @@ class EntregaRepository extends AbstractRepository implements EntregaRepositoryI
     }
 
     // Item 
+    public function getAllItem($queryParams){
+        if (isset($queryParams['app'])) {
+            return $this->baseApp->getAllItemAvailable($queryParams);
+        }
+    }
+    
     public function getItemById($id){
         $dados = EntregaItem::where('id', '=', $id)->first();
         if (!$dados) {

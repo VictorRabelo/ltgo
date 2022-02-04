@@ -4,14 +4,23 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 use App\Repositories\Eloquent\AbstractRepository;
-use App\Models\Venda;
+
 use App\Models\User;
+use App\Models\Venda;
+use App\Models\Entrega;
+use App\Models\Movition;
+use App\Models\EntregaItem;
+
 use App\Resolvers\ApiCdiResolverInterface;
 use App\Resolvers\AppResolverInterface;
+
 use App\Utils\Messages;
 use App\Utils\Tools;
+
 
 class AppService extends AbstractRepository implements AppResolverInterface
 {
@@ -55,107 +64,164 @@ class AppService extends AbstractRepository implements AppResolverInterface
             ];
         }
     }
+    
+    public function authAlterarSenha($request) {
+        unset($request['app']);
+        
+        $id = auth()->user()->id;
+        $resp = User::where('id', $id)->first();
+        
+        $request['token'] = $resp->tokenApi;
+        
+        $response = $this->baseApi->authAlterarSenha($request);
+        
+        if(!$response) {
+            return response()->json('Erro no servidor | CDIGO |', 500);
+        }
+        
+        if(empty($resp)){
+            return false;
+        }
+
+        $resp->update(['password' =>  Hash::make($request['password'])]);
+        $resp->save();
+        
+        return response()->json('Senha Atualizada', 200);
+    }
 
     public function getVendas($queryParams, $date){
         
-        $response = $this->baseApi->getVendas($queryParams, $date);
         $userId = Auth::user()->id;
-
+        
         if(isset($queryParams['date'])) {
             if($queryParams['date'] == 0){
-                $dados = Venda::with('produto', 'cliente', 'vendedor')->where('vendedor_id', $userId)->orderBy('id_venda', 'desc')->get()->toArray();
+                $dados = Venda::with('produto', 'cliente', 'vendedor')->where('vendedor_id', $userId)->orderBy('id_venda', 'desc')->get();
             } else {
                 $date = $this->dateFilter($queryParams['date']);
-                $dados = Venda::with('produto', 'cliente', 'vendedor')->where('vendedor_id', $userId)->whereBetween('created_at', [$date['inicio'], $date['fim']])->orderBy('id_venda', 'desc')->get()->toArray();
+                $dados = Venda::with('produto', 'cliente', 'vendedor')->where('vendedor_id', $userId)->whereBetween('created_at', [$date['inicio'], $date['fim']])->orderBy('id_venda', 'desc')->get();
             }
 
         } else {
             $date = $this->dateMonth();
-            $dados = Venda::with('produto', 'cliente', 'vendedor')->where('vendedor_id', $userId)->whereBetween('created_at', [$date['inicio'], $date['fim']])->orderBy('id_venda', 'desc')->get()->toArray();
+            $dados = Venda::with('produto', 'cliente', 'vendedor')->where('vendedor_id', $userId)->whereBetween('created_at', [$date['inicio'], $date['fim']])->orderBy('id_venda', 'desc')->get();
+        }
+        
+        return $this->tools->calculoVenda($dados);
+    }
+    
+    public function finishSale($dados){
+        unset($dados['app']);
+        
+        if (count($dados['itens']) == 0) {
+            return ['message' => 'Venda não contem itens!', 'code' => 500];
         }
 
-        $countVendasCdi = count($response['vendas']);
-        $countVendasLtgo = count($dados);
-        var_dump($countVendasCdi);
-        var_dump($countVendasLtgo);
-        if($countVendasCdi > 0){
-            foreach ($response['vendas'] as $value) {
-                $value['typeApi'] = 'cdi';
+        $dadosVenda = Venda::where('id_venda', '=', $dados['id_venda'])->first();
+        if (!$dadosVenda) {
+            return ['message' => 'Falha ao procurar venda ', 'code' => 500];
+        }
+        
+        $dadosVenda->fill($dados);
+        
+        if(!$dadosVenda->save()){
+            return ['message' => 'Falha ao cadastrar venda', 'code' => 500];
+        }
+        
+        if (!$this->movimentacaoEstoque($dados['itens'], $dados['entrega_id'])) {
+            return ['message' => 'Falha na movimentação do estoque', 'code' => 500];
+        }
+
+        if (!$this->aPrazoVenda($dados)) {
+            return ['message' => 'Falha ao cadastrar movimentação', 'code' => 500];
+        }
+        
+        return ['message' => 'Venda realizada com sucesso!', 'code' => 200];
+    }
+    
+    public function getAllItemAvailable($queryParams){
+        if (isset($queryParams['filterEntregas'])) {
+            return $this->getEntregasDisponiveis();
+        }
+        
+        $userId =  auth()->user()->id;
+        
+        $entregas = Entrega::where('id_entrega', $queryParams['id_entrega'])->where('entregador_id', $userId)->where('status', 'pendente')->get();
+        
+        $produtosDisponiveis = [];
+        
+        foreach ($entregas as $item) {
+            $produtos = $item->entregasItens()->get();
+
+            foreach ($produtos as $value) {
+                $product = $value->produto()->first();
+                $product->und = $value->qtd_disponivel;
+                $product->preco = $value->preco_entrega;
+                $product->unitario = $value->preco_entrega;
+                $product->data_pedido = $value->created_at;
+
+                array_push($produtosDisponiveis, $product);
+                
+            }   
+        }
+        
+        return $produtosDisponiveis;
+    }
+    
+    public function getEntregasDisponiveis() {
+        $userId =  auth()->user()->id;
+        
+        $date = $this->dateToday();
+        $dados = Entrega::with('entregador')->where('entregador_id', $userId)->whereBetween('created_at', [$date['inicio'], $date['fim']])->orderBy('id_entrega', 'desc')->get();
+        
+        if (!$dados) {
+            return $this->messages->error;
+        }
+        
+        return $dados;
+    }
+    
+    private function aPrazoVenda($dados)
+    {
+        if(!isset($dados['prazo'])) {
+            
+            $dateNow = $this->dateNow();
+
+            $movition = Movition::create([
+                'venda_id' => $dados['id_venda'],
+                'data' => $dateNow,
+                'lucro' => $dados['lucro'],
+                'valor' => $dados['debitar'],
+                'descricao' => $dados['cliente'],
+                'tipo' => 'entrada',
+                'status' => $dados['caixa']
+            ]);
+
+            if(!$movition) {
+                return false;
             }
+
+            return true;
         }
-        
-        $resultCalculos = array();
-        if($countVendasLtgo > 0){
-            $resultCalculos = $this->tools->calculoVendaApp($dados);
-            foreach ($dados as $value) {
-                $value->typeApi = 'ltgo';
+
+        return true;
+    }
+    
+    private function movimentacaoEstoque($dados, $idEntrega)
+    {
+        foreach ($dados as $item) {
+            $dadosEstoque = EntregaItem::where('entrega_id', $idEntrega)->where('produto_id', $item['produto_id'])->first();
+            if (!$dadosEstoque) {
+                return false;
             }
-        }
-
-        $dataSource = array();
-
-        if($countVendasLtgo > 0 && $countVendasCdi == 0){
-            $dadosComplicated = $this->tools->calculoVenda($response['vendas']);
-            array_push($dataSource, $dadosComplicated);
-            return $dataSource[0];
+            
+            if ($dadosEstoque->qtd_disponivel > 0) {
+                $dadosEstoque->decrement('qtd_disponivel', $item['qtd_venda']);
+            } else {
+                return false;
+            }
 
         }
-        
-        if($countVendasCdi > 0 && $countVendasLtgo == 0){
-            var_dump($dados);
-            $dadosComplicated = $this->tools->calculoVenda($dados);
-            return $dadosComplicated;
-        }
 
-        if($countVendasCdi > 0 && $countVendasLtgo > 0){
-            $dataSource['vendas'] = array_merge($response['vendas'], $dados);
-            $resultCalculosApp = $this->tools->somatoriaGeralVendasApp($resultCalculos, $response);
-            array_push($dataSource, $resultCalculosApp);
-        }
-
-        return $dataSource;
-    }
-
-    public function getEntregas($queryParams){
-
-    }
-    
-    public function getByIdVendas($queryParams){
-
-    }
-
-    public function getByIdEntregas($queryParams){
-
-    }
-    
-    public function postVendas($queryParams){
-        $resultConnection = $this->baseApi->postVendas($queryParams);
-        
-        $dataSource = array();
-        $dataSource['typeApi'] = 'cdi';
-        
-        array_push($dataSource['dados'], $resultConnection);
-
-        return $dataSource;
-    }
-
-    public function postEntregas($request){
-
-    }
-    
-    public function putVendas($request){
-
-    }
-
-    public function putEntregas($request){
-
-    }
-    
-    public function deleteVendas($request){
-
-    }
-
-    public function deleteEntregas($request) {
-
+        return true;
     }
 }

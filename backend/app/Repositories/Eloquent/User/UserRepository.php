@@ -6,6 +6,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Repositories\Contracts\User\UserRepositoryInterface;
 use App\Repositories\Eloquent\AbstractRepository;
+use App\Resolvers\ApiCdiResolverInterface;
 use App\Utils\Messages;
 use Illuminate\Support\Facades\Hash;
 
@@ -20,7 +21,12 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
      * @var Messages
      */
     protected $messages = Messages::class;
-
+    
+    /**
+     * @var ApiCdiResolverInterface
+     */
+    protected $baseApi = ApiCdiResolverInterface::class;
+    
     public function index()
     {
         return $this->model->orderBy('name', 'asc')->get();
@@ -28,6 +34,10 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
     
     public function create($dados)
     {
+        if(!isset($dados['api'])){
+            $resp = $this->baseApi->postUser($dados);
+        }
+        
         $dados['password'] = Hash::make($dados['password']);
 
         $user = $this->store($dados);
@@ -44,11 +54,14 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
 
     
     public function updateUser($dados, $id){
+        
         $resp = $this->model->findOrFail($id);
 
         if (empty($resp)) {
             return false;
         }
+        
+        $dados['password'] = Hash::make($dados['password']);
         
         $resp->fill($dados);
 

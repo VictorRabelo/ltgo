@@ -83,7 +83,7 @@
         <div class="page-break"></div>
         <table class="customers">
             <tr>
-                <th colspan="6">Vendas - {{ $dadosEntrega->entregador }} - {{date('d/m/Y', strtotime($data_now))}}</th>
+                <th colspan="7">Vendas - {{ $dadosEntrega->entregador }} - {{date('d/m/Y', strtotime($data_now))}}</th>
             </tr>
             @if (count($dadosVendas) > 0)    
                 <tr>
@@ -93,6 +93,7 @@
                     <th>Valor Pago</th>
                     <th>Valor Vendido</th>
                     <th>Lucro</th>
+                    <th>Pagamento</th>
                 </tr>
                 @foreach ($dadosVendas as $data)
                     <tr>
@@ -106,11 +107,12 @@
                         <td>{{ 'R$ '.number_format($data->pago, 2, ',', '.') }}</td>
                         <td>{{ 'R$ '.number_format($data->total_final, 2, ',', '.') }}</td>
                         <td>{{ 'R$ '.number_format($data->lucro, 2, ',', '.') }}</td>
+                        <td>{{ $data->pagamento }}</td>
                     </tr>
                 @endforeach    
             @else
                 <tr>
-                    <th colspan="6">Não há vendas!</th>
+                    <th colspan="7">Não há vendas!</th>
                 </tr>
             @endif
         </table>

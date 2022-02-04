@@ -138,6 +138,24 @@ class VendaController extends Controller
             return response()->json(['error' => $e->getMessage(), 'message' => 'Erro de servidor'], 500);
         }
     }
+    
+    public function showItemApp($id)
+    {
+
+        try {
+            $res = $this->vendaRepository->showItemApp($id);
+            
+            if (!$res) {
+                return response()->json(['message' => 'Falha ao processar o produto!'], 500);
+            }
+            
+            return response()->json($res, 200);
+
+
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => $e->getMessage(), 'message' => 'Erro de servidor'], 500);
+        }
+    }
 
     public function storeItem(Request $request)
     {   

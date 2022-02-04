@@ -17,11 +17,11 @@ class DashboardController extends Controller
         $this->dashboardRepository = $dashboardRepository;
     }
     
-    public function getVendasDia()
+    public function getVendasDia(Request $req)
     {
         try {
-
-            $res = $this->dashboardRepository->getVendasDia();
+            $request = $req->all();
+            $res = $this->dashboardRepository->getVendasDia($request);
 
             return response()->json($res, 200);
 
@@ -30,11 +30,11 @@ class DashboardController extends Controller
         }
     }
     
-    public function getVendasMes()
+    public function getVendasMes(Request $req)
     {
         try {
-
-            $res = $this->dashboardRepository->getVendasMes();
+            $request = $req->all();
+            $res = $this->dashboardRepository->getVendasMes($request);
 
             return response()->json($res, 200);
 
@@ -43,11 +43,11 @@ class DashboardController extends Controller
         }
     }
     
-    public function getVendasTotal()
+    public function getVendasTotal(Request $req)
     {
         try {
-
-            $res = $this->dashboardRepository->getVendasTotal();
+            $request = $req->all();
+            $res = $this->dashboardRepository->getVendasTotal($request);
 
             return response()->json($res, 200);
 
@@ -92,11 +92,11 @@ class DashboardController extends Controller
         }
     }
 
-    public function getProdutosEstoque()
+    public function getProdutosEstoque(Request $req)
     {
         try {
-
-            $res = $this->dashboardRepository->getProdutosEstoque();
+            $request = $req->all();
+            $res = $this->dashboardRepository->getProdutosEstoque($request);
 
             return response()->json($res, 200);
             

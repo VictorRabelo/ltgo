@@ -21,6 +21,8 @@ interface VendaRepositoryInterface extends CrudRepositoryInterface
 
     //itens
     public function getItemById($id);
+    
+    public function showItemApp($id);
 
     public function createItem($dados);
 

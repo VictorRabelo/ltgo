@@ -9,8 +9,7 @@ use App\Resolvers\ApiCdiResolverInterface;
 
 class ApiCdiService implements ApiCdiResolverInterface
 {
-    private $baseApi = 'http://0.0.0.0:8888/api/v1/app';
-    // private $baseApi = 'https://api.casadoimportadogo.com/api/v1/app';
+    private $baseApi = 'https://api.casadoimportadogo.com/api/v1';
 
     public function authLogin($credentials){
         $response = Http::post($this->baseApi.'/oauth/login', [
@@ -20,53 +19,25 @@ class ApiCdiService implements ApiCdiResolverInterface
         
         return $response->json()['token']['accessToken'];
     }
-
-    public function getVendas($queryParams, $date){
-        $response = Http::get($this->baseApi.'/vendas', [
-            'app' => $queryParams['app'],
-            'userId' => Auth::user()->id,
-            'date' => $date,
+    
+    public function authAlterarSenha($request) {
+        $response = Http::withToken($request['token'])->post($this->baseApi.'/oauth/alter-password', [
+            'password' => $request['password']
         ]);
-        return $response->json()['response'];
-    }
-
-    public function getEntregas($queryParams){
-
+        
+        return $response->json();
     }
     
-    public function getByIdVendas($queryParams){
-
-    }
-
-    public function getByIdEntregas($queryParams){
-
-    }
-    
-    public function postVendas($queryParams){
-        $response = Http::post($this->baseApi.'/vendas', [
-            'app' => $queryParams['app'],
-            'userId' => Auth::user()->id
+    public function postUser($request) {
+        $response = Http::post($this->baseApi.'/users', [
+            'email' => $request['email'],
+            'login' => $request['login'],
+            'name' => $request['name'],
+            'password' => $request['password'],
+            'role' => $request['role'],
+            'api' => true
         ]);
-        return $response->json()['response'];
-    }
-
-    public function postEntregas($request){
-
-    }
-    
-    public function putVendas($request){
-
-    }
-
-    public function putEntregas($request){
-
-    }
-    
-    public function deleteVendas($request){
-
-    }
-
-    public function deleteEntregas($request) {
-
+        
+        return $response->json();
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Produto;
+use App\Models\EntregaItem;
 
 class Entrega extends Model
 {

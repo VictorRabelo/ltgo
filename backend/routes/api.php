@@ -68,9 +68,9 @@ Route::group(['prefix' =>'/v1'], function() {
         
         Route::post('/','User\UserController@store');
         
-        Route::put('/{id}','User\UserController@update');
+        Route::put('/{id}','User\UserController@update')->middleware(['auth:api', 'scope:admin']);
         
-        Route::delete('/{id}','User\UserController@destroy');
+        Route::delete('/{id}','User\UserController@destroy')->middleware(['auth:api', 'scope:admin']);
 
     });
     

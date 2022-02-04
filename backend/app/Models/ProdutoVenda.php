@@ -33,5 +33,9 @@ class ProdutoVenda extends Model
     {
         return $this->belongsTo(Produto::class, 'produto_id', 'id_produto');
     }
-
+    
+    public function venda()
+    {
+        return $this->belongsTo(Venda::class, 'venda_id', 'id_venda');
+    }
 }

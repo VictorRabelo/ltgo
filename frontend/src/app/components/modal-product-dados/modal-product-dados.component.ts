@@ -138,6 +138,10 @@ export class ModalProductDadosComponent implements OnInit {
     this.dados.preco_venda = this.dados.preco;
     this.dados.lucro_venda = this.dados.preco - this.dados.unitario;
 
+    if(this.data.add) {
+      this.dados.add = true;
+    }
+
     this.serviceEntrega.updateItem(this.dados.id, this.dados).subscribe(res => {
       this.message.toastSuccess('Atualizada com sucesso!');
       this.close(res);

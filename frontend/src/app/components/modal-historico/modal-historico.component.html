@@ -25,7 +25,7 @@
     <div class="card-loader" *ngIf="loading"><i class="fas fa-sync-alt anim-rotate"></i></div>
   </div>
 
-  <form #form="ngForm"(ngSubmit)="submit(form)" (keydown.enter)="$event.preventDefault()">
+  <form #form="ngForm"(ngSubmit)="submit(form)" (keydown.enter)="submit(form)">
     <div class="modal-footer">
       <div class="input-group">
         <input type="text" name="message" placeholder="Digite aqui ..." class="form-control"

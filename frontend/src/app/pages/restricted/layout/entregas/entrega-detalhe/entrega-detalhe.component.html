@@ -75,15 +75,15 @@
       </div>
   
       <div class="table-responsive" style="height: 80%;">
-        <table class="table table-hover text-nowrap">
+        <table class="table table-hover text-nowrap text-center">
           <thead>
             <th>#COD</th>
             <th>Qtd.</th>
             <th>Foto</th>
             <th>Produto</th>
-            <th class="text-right">Valor</th>
-            <th class="text-right">Lucro</th>
-            <th class="text-right" *ngIf="entregaCurrent.status !== 'ok'">Ação</th>
+            <th>Valor</th>
+            <th>Lucro</th>
+            <th *ngIf="entregaCurrent.status !== 'ok'">Ação</th>
           </thead>
           <tbody>
             <tr *ngFor="let item of entregaCurrent.itens;">
@@ -93,10 +93,13 @@
                 <async-image url="{{ item.produto.path }}"></async-image>
               </td>
               <td>{{ item.produto.name | titlecase }}</td>
-              <td class="text-right">{{ item.preco_entrega | currency:'R$' }}</td>
-              <td class="text-right">{{ item.lucro_entrega | currency:'R$' }}</td>
-              <td class="text-right" *ngIf="entregaCurrent.status !== 'ok'">
-                <button class="btn btn-sm btn-primary mr-2" (click)="openItem(item.id)">
+              <td>{{ item.preco_entrega | currency:'R$' }}</td>
+              <td>{{ item.lucro_entrega | currency:'R$' }}</td>
+              <td *ngIf="entregaCurrent.status !== 'ok'">
+                <button class="btn btn-sm btn-primary" (click)="openItem('add', item.id)">
+                  <i class="fas fa-plus"></i>
+                </button>
+                <button class="btn btn-sm btn-warning mx-1" (click)="openItem('alterar', item.id)">
                   <i class="fas fa-pen"></i>
                 </button>
                 <button class="btn btn-sm btn-danger" (click)="deleteItemConfirm(item)">

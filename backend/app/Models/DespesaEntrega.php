@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class DespesaEntrega extends Model
 {
@@ -21,4 +22,7 @@ class DespesaEntrega extends Model
         'data' => 'date:d-m-Y',
     ];
 
+    public function entregador() {
+        return $this->hasOne(User::class, 'id', 'entregador_id');
+    }
 }

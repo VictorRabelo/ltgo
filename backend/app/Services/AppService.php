@@ -179,9 +179,8 @@ class AppService extends AbstractRepository implements AppResolverInterface
 
         foreach ($dados as $item) {
             $produtos = $item->entregasItens()->get();
-
             foreach ($produtos as $value) {
-                $produtos->qtd_disponiveis += $value->qtd_disponivel;
+                $item->qtd_disponiveis += $value->qtd_disponivel;
             }   
         }
         

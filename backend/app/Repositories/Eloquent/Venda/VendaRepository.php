@@ -7,6 +7,7 @@ use App\Models\Estoque;
 use App\Models\EntregaItem;
 use App\Models\Movition;
 use App\Models\ProdutoVenda;
+use App\Models\Produto;
 use App\Models\Venda;
 use App\Repositories\Contracts\Venda\VendaRepositoryInterface;
 use App\Repositories\Eloquent\AbstractRepository;
@@ -227,7 +228,12 @@ class VendaRepository extends AbstractRepository implements VendaRepositoryInter
     }
 
     public function createItem($dados){
-        $result = isset($dados['app'])? $this->createItemEntregador($dados):ProdutoVenda::create($dados);
+        
+        if(isset($dados['app'])) {
+            return $this->baseApp->createItemEntregador($dados);
+        }
+        
+        $result = ProdutoVenda::create($dados);
         if(!$result){
             return ['message' => 'Falha ao procesar dados!', 'code' => 500];
         }
@@ -353,12 +359,6 @@ class VendaRepository extends AbstractRepository implements VendaRepositoryInter
         }
 
         return ['message' => 'Debitado com sucesso!', 'code' => 200];
-    }
-
-    private function createItemEntregador($dados)
-    {
-        $dados['lucro_venda'] = $dados['unitario'] * $dados['qtd_venda'];
-        return ProdutoVenda::create($dados);
     }
     
     private function aPrazoVenda($dados)

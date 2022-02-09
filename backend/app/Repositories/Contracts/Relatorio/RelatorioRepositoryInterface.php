@@ -13,4 +13,5 @@ interface RelatorioRepositoryInterface extends CrudRepositoryInterface
     public function vendidos();
     public function entregas();
     public function entregaDetalhes($id);
+    public function detalheAReceber($id);
 }

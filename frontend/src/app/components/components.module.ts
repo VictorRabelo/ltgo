@@ -22,6 +22,7 @@ import { UtilModule } from '@app/util/util.module';
 import { ModalInvoiceComponent } from './modal-invoice/modal-invoice.component';
 import { ModalHistoricoComponent } from './modal-historico/modal-historico.component';
 import { FilterFormComponent } from './filter-form/filter-form.component';
+import { TimerComponent } from './timer/timer.component';
 
 export const customCurrencyMaskConfig = {
   align: "right",
@@ -52,6 +53,7 @@ export const customCurrencyMaskConfig = {
     ModalInvoiceComponent,
     ModalHistoricoComponent,
     FilterFormComponent,
+    TimerComponent,
   ],
   imports: [
     CommonModule,
@@ -76,6 +78,7 @@ export const customCurrencyMaskConfig = {
     ModalInvoiceComponent,
     ModalHistoricoComponent,
     FilterFormComponent,
+    TimerComponent,
   ],
   entryComponents: [
     ClienteFormComponent,
@@ -90,6 +93,7 @@ export const customCurrencyMaskConfig = {
     ModalInvoiceComponent,
     ModalHistoricoComponent,
     FilterFormComponent,
+    TimerComponent,
   ],
 })
 export class ComponentsModule { }

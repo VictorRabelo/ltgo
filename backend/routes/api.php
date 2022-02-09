@@ -255,6 +255,8 @@ Route::group(['prefix' =>'/v1'], function() {
         Route::get('/entregas','Relatorio\RelatorioController@entregas')->middleware(['auth:api', 'scope:admin']);
         
         Route::get('/entrega-detalhes/{id}','Relatorio\RelatorioController@entregaDetalhes')->middleware(['auth:api', 'scope:admin']);
+        
+        Route::get('/venda-areceber/{id}','Relatorio\RelatorioController@detalheAReceber')->middleware(['auth:api', 'scope:admin']);
 
     });
 

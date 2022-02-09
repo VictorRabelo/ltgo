@@ -34,5 +34,9 @@ export class RelatorioService {
     getClientes() {
         return this.http.get<any>(`${environment.apiUrl}/relatorios/clientes`).pipe(map(res =>{ return res.response }));
     }
+    
+    getVendaAReceber(id: number) {
+        return this.http.get<any>(`${environment.apiUrl}/relatorios/venda-areceber/${id}`).pipe(map(res =>{ return res.response }));
+    }
 
 }

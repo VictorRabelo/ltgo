@@ -6,31 +6,31 @@ import { Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class VendaService {
-    
+
     baseUrl = environment.apiUrl;
-    
+
     constructor(private http: HttpClient) { }
 
     getAll(queryParams: any = {}) {
         let params
-        
-        if(queryParams.date){
+
+        if (queryParams.date) {
             params = new HttpParams().set('date', queryParams.date);
         }
-        
-        if(queryParams.aReceber){
+
+        if (queryParams.aReceber) {
             params = new HttpParams().set('aReceber', queryParams.aReceber);
         }
 
-        return this.http.get<any>(`${this.baseUrl}/vendas`, { params: params }).pipe(map(res =>{ return res.response }));
+        return this.http.get<any>(`${this.baseUrl}/vendas`, { params: params }).pipe(map(res => { return res.response }));
     }
 
     getById(id: number) {
         return this.http.get<any>(`${this.baseUrl}/vendas/${id}`);
     }
 
-    store(store: any){
-        return this.http.post<any>(`${this.baseUrl}/vendas`, store).pipe(map(res =>{ return res.response }));
+    store(store: any) {
+        return this.http.post<any>(`${this.baseUrl}/vendas`, store).pipe(map(res => { return res.response }));
     }
 
     finishSale(dados: any) {
@@ -41,10 +41,10 @@ export class VendaService {
         return this.http.put<any>(`${this.baseUrl}/vendas/${id}`, update);
     }
 
-    delete(id: number){
-        return this.http.delete<any>(`${this.baseUrl}/vendas/${id}`);
+    delete(id: number, queryParams: any = {}) {
+        return this.http.delete<any>(`${this.baseUrl}/vendas/${id}`, { params: queryParams });
     }
-    
+
     //itens
     createItem(dados: any) {
         return this.http.post<any>(`${this.baseUrl}/vendas/item`, dados);

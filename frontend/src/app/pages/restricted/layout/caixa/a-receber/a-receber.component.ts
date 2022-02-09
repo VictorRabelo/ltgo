@@ -12,6 +12,7 @@ import { SubSink } from 'subsink';
 declare let $: any;
 import 'bootstrap';
 import { ModalDebitarComponent } from '@app/components/modal-debitar/modal-debitar.component';
+import { RelatorioService } from '@app/services/relatorio.service';
 
 @Component({
   selector: 'app-a-receber',
@@ -38,6 +39,7 @@ export class AReceberComponent extends ControllerBase {
     private modalCtrl: NgbModal,
     private router: Router,
     private service: VendaService,
+    private serviceRelatorio: RelatorioService,
     private message: MessageService,
     private spinner: NgxSpinnerService,
   ) { 
@@ -139,6 +141,18 @@ export class AReceberComponent extends ControllerBase {
     });
   }
   
+  downloadDetalhe(id){
+    this.loading = true;
+    this.sub.sink = this.serviceRelatorio.getVendaAReceber(id).subscribe(
+      (res: any) => {
+        this.downloadPDF(res.file, res.data, 'detalhes-areceber')
+      },
+      error => console.log(error),
+      ()=>{
+        this.loading = false;
+      })
+  }
+
   ngOnDestroy() {
     this.sub.unsubscribe();
   }

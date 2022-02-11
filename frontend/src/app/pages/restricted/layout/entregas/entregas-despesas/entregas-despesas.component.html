@@ -47,13 +47,14 @@
                         </div>
                         
                         <div class="card-body table-responsive p-0" style="height: 100%;">
-                            <table class="table table-hover text-nowrap">
+                            <table class="table table-hover text-nowrap text-center">
                                 <thead>
                                     <tr>
                                         <th scope="col">Entregador</th>
                                         <th scope="col">Data</th>
                                         <th scope="col">Valor</th>
                                         <th scope="col">Descrição</th>
+                                        <th scope="col">Ação</th>
                                     </tr>
                                 </thead>
                                 <tbody *ngFor="let despesa of despesas | filter:term">
@@ -62,11 +63,16 @@
                                         <td>{{ despesa.data }}</td>
                                         <td>{{ despesa.valor | currency: 'R$' }}</td>
                                         <td>{{ despesa.descricao }}</td>
+                                        <td>
+                                            <button class="btn btn-danger btn-sm" title="Excluir" (click)="delete(despesa.id_despesaEntrega)">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
                                     </tr>
                                 </tbody>
                                 <tbody *ngIf=" despesas.length == 0 ">
                                     <tr class="text-center">
-                                        <td colspan="4">Não há despesas no momento!</td>
+                                        <td colspan="5">Não há despesas no momento!</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -97,12 +103,12 @@
                         <div class="card-body">
                             <div class="form-row">
                                 <div class="form-group col-12">
-                                    <label for="valor" class="fieldset">*Entregador:</label>
+                                    <label for="entregador_login" class="fieldset">*Entregador:</label>
                                     <select required class="form-control" 
-                                        name="entregador_id" ngModel #entregador_id="ngModel"
-                                        [ngClass]="{'is-invalid': !entregador_id.valid && (entregador_id.touched || form.submitted)}">
+                                        name="entregador_login" ngModel #entregador_login="ngModel"
+                                        [ngClass]="{'is-invalid': !entregador_login.valid && (entregador_login.touched || form.submitted)}">
                                         <option value="">Selecione um entregador</option>
-                                        <option *ngFor="let item of entregadores" [value]="item.id">{{ item.name | titlecase }}</option>
+                                        <option *ngFor="let item of entregadores" [value]="item.login">{{ item.name | titlecase }}</option>
                                     </select>
                                 </div>
                             </div>

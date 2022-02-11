@@ -60,7 +60,7 @@ class VendaController extends Controller
             if (!$res) {
                 return response()->json(['response' => 'Erro de Servidor'], 500);
             }
-
+            
             return response()->json(['response' => $res], 201);
 
         } catch (ModelNotFoundException $e) {

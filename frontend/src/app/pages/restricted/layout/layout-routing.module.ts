@@ -13,6 +13,7 @@ import { SalesComponent } from './sales/sales.component';
 import { SaleDetalheComponent } from './sales/sale-detalhe/sale-detalhe.component';
 import { MovitionComponent } from './movition/movition.component';
 import { EntregaDetalheComponent } from './entregas/entrega-detalhe/entrega-detalhe.component';
+import { EntregasDespesasComponent } from './entregas/entregas-despesas/entregas-despesas.component';
 
 const routes: Routes = [
   
@@ -30,6 +31,7 @@ const routes: Routes = [
   {
     path: 'entregas', children: [
       { path: '', component: EntregasComponent},
+      { path: 'despesas', component: EntregasDespesasComponent},
       { path: ':id', component: EntregaDetalheComponent},
     ], data: { animation: 'EntregasPage' }
   },

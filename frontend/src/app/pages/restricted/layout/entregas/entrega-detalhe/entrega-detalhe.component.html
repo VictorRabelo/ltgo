@@ -79,6 +79,7 @@
           <thead>
             <th>#COD</th>
             <th>Qtd.</th>
+            <th>Qtd. Disponível</th>
             <th>Foto</th>
             <th>Produto</th>
             <th>Valor</th>
@@ -89,6 +90,7 @@
             <tr *ngFor="let item of entregaCurrent.itens;">
               <td>{{ item.produto.id_produto }}</td>
               <td>{{item.qtd_produto | number}}</td>
+              <td>{{item.qtd_disponivel | number}}</td>
               <td>
                 <async-image url="{{ item.produto.path }}"></async-image>
               </td>
@@ -110,7 +112,7 @@
           </tbody>
           <tbody *ngIf="entregaCurrent.itens.length == 0">
             <tr class="text-center">
-              <td colspan="7">Não há itens no momento</td>
+              <td colspan="8">Não há itens no momento</td>
             </tr>
           </tbody>
         </table>

@@ -149,14 +149,19 @@ class AppService extends AbstractRepository implements AppResolverInterface
         
         $produtos = $entrega->entregasItens()->get();
         
-        foreach ($produtos as $value) {
-            $product = $value->produto()->first();
-            $product->und = $value->qtd_disponivel;
-            $product->preco = $value->preco_entrega;
-            $product->unitario = $value->preco_entrega;
-            $product->data_pedido = $value->created_at;
+        foreach ($produtos as $key => $value) {
+            if ($value->qtd_disponivel == 0) {
+                unset($produtos[$key]);
+            } else {
+                $product = $value->produto()->first();
+                $product->und = $value->qtd_disponivel;
+                $product->preco = $value->preco_entrega;
+                $product->unitario = $value->preco_entrega;
+                $product->data_pedido = $value->created_at;
+                
+                array_push($produtosDisponiveis, $product);
+            }
 
-            array_push($produtosDisponiveis, $product);
                 
         }
         

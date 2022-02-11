@@ -10,6 +10,11 @@
                 page-break-after: always;
             }
 
+            img {
+                width: 50px;
+                height: 50px;
+            }
+
             #customers {
                 font-family: Arial, Helvetica, sans-serif;
                 border-collapse: collapse;
@@ -43,18 +48,22 @@
     <body>
         <table id="customers">
             <tr>
-                <th>Company</th>
-                <th>Contact</th>
-                <th>Country</th>
+                <th colspan="3">Qtd. Vendidas</th>
             </tr>
-            @foreach ($datas as $data)
+            <tr>
+                <th>Foto</th>
+                <th>Produto</th>
+                <th>Qtd. Vendida</th>
+            </tr>
+            @foreach ($products as $item)
                 <tr>
-                    <td>{{ $data->id_venda }}</td>
-                    <td>{{ $data->lucro }}</td>
-                    <td>{{ $data->pago }}</td>
+                    <td>
+                        <img src="{{ $item->path }}" alt="Produto">
+                    </td>
+                    <td>{{ $data->nameProduto }}</td>
+                    <td>{{ $data->qtdTotal }}</td>
                 </tr>
             @endforeach
-            
         </table>
     </body>
 </html>

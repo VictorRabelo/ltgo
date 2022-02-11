@@ -128,11 +128,13 @@ class VendaRepository extends AbstractRepository implements VendaRepositoryInter
     public function deleteVenda($id, $params)
     {
         $dados = $this->model->findOrFail($id);
-        
+
         if (empty($dados)) {
             return ['message' => 'Falha na movimentação do estoque', 'code' => 500];
 
         }
+        
+        $entrega = $dados->entrega()->first();
         
         foreach ($dados->vendaItens()->get() as $item) {
             $dadoProduto = $item->produto()->first();
@@ -143,7 +145,12 @@ class VendaRepository extends AbstractRepository implements VendaRepositoryInter
             }
             
             if(isset($params['extornarProduto']) && $params['extornarProduto']){
-                $dadoEstoque->increment('und', $item->qtd_venda);
+                if(is_null($dados->entrega_id)){
+                    $dadoEstoque->increment('und', $item->qtd_venda);
+                } else {
+                    $entregaItem =  EntregaItem::where('entrega_id', $entrega->id_entrega)->where('produto_id', $item['produto_id'])->first();
+                    $entregaItem->increment('qtd_disponivel', $item->qtd_venda);
+                }
             }
             
             if ($dadoEstoque->und == 0) {

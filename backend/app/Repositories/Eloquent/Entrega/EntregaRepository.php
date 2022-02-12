@@ -255,6 +255,14 @@ class EntregaRepository extends AbstractRepository implements EntregaRepositoryI
             return false;
         }
         
+        if($dadosVenda->status == 'pendente') {
+            $estoque = Estoque::where('id_estoque', $dados['produto']['estoque']['id_estoque'])->where('produto_id', $dados['produto']['estoque']['produto_id'])->first();
+            if (!$estoque) {
+                return false;
+            }
+            $estoque->decrement('und', $dados['qtd_produto']);
+        }
+        
         if(isset($dados['add'])) {
             $dadosItem->increment('qtd_produto', $dados['qtd_produto']);
             $dadosItem->increment('qtd_disponivel', $dados['qtd_produto']);

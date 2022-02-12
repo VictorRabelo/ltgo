@@ -107,7 +107,11 @@ class AppService extends AbstractRepository implements AppResolverInterface
             $dados = Venda::with('produto', 'cliente', 'vendedor')->where('vendedor_id', $userId)->whereBetween('created_at', [$date['inicio'], $date['fim']])->orderBy('id_venda', 'desc')->get();
         }
         
-        return $this->tools->calculoVenda($dados);
+        if(!isset($date)) {
+            $date = null;
+        }
+        
+        return $this->tools->calculoVenda($dados, $date);
     }
     
     public function finishSale($dados){

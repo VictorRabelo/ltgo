@@ -56,7 +56,7 @@ class DespesaEntregaController extends Controller
     {
         try {
             $dados = $request->all();
-
+            
             $res = $this->despesaRepository->create($dados);
 
             if (!$res) {

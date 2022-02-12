@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Models\DespesaEntrega;
 use App\Models\ProdutoVenda;
+use App\Models\User;
 use App\Repositories\Contracts\DespesaEntrega\DespesaEntregaRepositoryInterface;
 use App\Repositories\Eloquent\AbstractRepository;
 use App\Resolvers\ApiCdiResolverInterface;
@@ -107,20 +108,22 @@ class DespesaEntregaRepository extends AbstractRepository implements DespesaEntr
 
     public function create($dados)
     {
-        $dados['valor'] =  $dados['valor'] / 2;
         
         if(!isset($dados['api'])){
             $resp = $this->baseApi->postDespesaEntrega($dados);
         }
         
+        $dados['entregador_id'] = User::where('login', $dados['entregador_login'])->first()->id;
+        
+        $dados['valor'] =  $dados['valor'] / 2;
+        
         if (!isset($dados['data'])) {
             $dados['data'] = $this->dateNow();
         }
-        $dados['entregador_id'] = auth()->user()->id;
 
         $res = DespesaEntrega::create($dados);
 
-        if (!$res->save()) {
+        if (!$res) {
             return ['message' => 'Falha ao cadastrar despesa!', 'code' => 500];
         }
 

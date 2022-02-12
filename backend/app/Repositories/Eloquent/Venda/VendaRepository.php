@@ -69,7 +69,11 @@ class VendaRepository extends AbstractRepository implements VendaRepositoryInter
             }
         }
         
-        return $this->tools->calculoVenda($dados);
+        if(!isset($date)) {
+            $date = null;
+        }
+        
+        return $this->tools->calculoVenda($dados, $date);
     }
     
     public function show($id){

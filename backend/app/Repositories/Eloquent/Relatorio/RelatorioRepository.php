@@ -98,9 +98,9 @@ class RelatorioRepository extends AbstractRepository implements RelatorioReposit
     {
         $data_now = $this->dateNow();
     
-        $sql = 'SELECT `produtos`.`name` as `nameProduto`, `produtos`.`path`, `produto_venda`.*, `vendas`.`entrega_id`, SUM(`produto_venda`.`qtd_venda`) as qtdTotal from `produto_venda` inner join `produtos` on `produtos`.`id_produto` = `produto_venda`.`produto_id` inner join `vendas` on `vendas`.`id_venda` = `produto_venda`.`venda_id` GROUP BY `produto_venda`.`produto_id`';
+        $sql = 'SELECT `produtos`.`name` as `nameProduto`, `produtos`.`path`, `produto_venda`.*, `vendas`.`entrega_id`, SUM(`produto_venda`.`qtd_venda`) as qtdTotal from `produto_venda` inner join `produtos` on `produtos`.`id_produto` = `produto_venda`.`produto_id` inner join `vendas` on `vendas`.`id_venda` = `produto_venda`.`venda_id` GROUP BY `produto_venda`.`produto_id` ORDER BY qtdTotal DESC';
         $products = DB::select($sql);
-
+        
         $pdf = PDF::loadView('pdf.vendidos', compact('products','data_now'));
         $result = $pdf->download($data_now.'.pdf');
     
@@ -152,7 +152,7 @@ class RelatorioRepository extends AbstractRepository implements RelatorioReposit
             return false;
         } 
         
-        $sql = 'SELECT `produtos`.`name` as `nameProduto`, `produtos`.`path`, `produto_venda`.*, `vendas`.`entrega_id`, SUM(`produto_venda`.`qtd_venda`) as qtdTotal from `produto_venda` inner join `produtos` on `produtos`.`id_produto` = `produto_venda`.`produto_id` inner join `vendas` on `vendas`.`id_venda` = `produto_venda`.`venda_id` where `vendas`.`entrega_id` = '.$id.' GROUP BY `produto_venda`.`produto_id`';
+        $sql = 'SELECT `produtos`.`name` as `nameProduto`, `produtos`.`path`, `produto_venda`.*, `vendas`.`entrega_id`, SUM(`produto_venda`.`qtd_venda`) as qtdTotal from `produto_venda` inner join `produtos` on `produtos`.`id_produto` = `produto_venda`.`produto_id` inner join `vendas` on `vendas`.`id_venda` = `produto_venda`.`venda_id` where `vendas`.`entrega_id` = '.$id.' GROUP BY `produto_venda`.`produto_id` ORDER BY qtdTotal DESC';
         $products = DB::select($sql);
         
         $dadosEntrega->qtd_disponiveis = 0;

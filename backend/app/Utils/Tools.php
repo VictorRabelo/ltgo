@@ -37,7 +37,7 @@ class Tools
         return $total;
     }
 
-    public function calculoVenda($dados)
+    public function calculoVenda($dados, $date = null)
     {
         $totalVendas = Venda::select(DB::raw('sum(total_final) as total'))->get();
 
@@ -61,7 +61,7 @@ class Tools
             'totalVendas'  => $totalVendas[0]['total'],
             'lucro'        => $lucro,
             'pago'         => $pago,
-            'data'         => isset($date['inicio'])? $date['inicio']:date('Y-m-d'),
+            'data'         => is_null($date['inicio'])? date('Y-m-d'):$date['inicio'],
         ];
     }
 

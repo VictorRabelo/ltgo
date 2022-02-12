@@ -43,7 +43,7 @@ class ApiCdiService implements ApiCdiResolverInterface
     
     public function postDespesaEntrega($request) {
         $response = Http::post($this->baseApi.'/despesas-entrega', [
-            'entregador' => $request['entregador_id']?$request['entregador_id']:Auth::user()->id,
+            'entregador_login' => $request['entregador_login'],
             'valor' => $request['valor'],
             'descricao' => $request['descricao'],
             'api' => true

@@ -205,7 +205,7 @@ Route::group(['prefix' =>'/v1'], function() {
         Route::get('/movimentacao','DespesaEntrega\DespesaEntregaController@movimentacao')->middleware(['auth:api', 'scope:admin,entregador,vendedor']);
         Route::get('/{id}','DespesaEntrega\DespesaEntregaController@show')->middleware(['auth:api', 'scope:admin,entregador,vendedor']);
         
-        Route::post('/','DespesaEntrega\DespesaEntregaController@store')->middleware(['auth:api', 'scope:admin,entregador,vendedor']);
+        Route::post('/','DespesaEntrega\DespesaEntregaController@store');
         
         Route::put('/{id}','DespesaEntrega\DespesaEntregaController@update')->middleware(['auth:api', 'scope:admin,entregador,vendedor']);
         

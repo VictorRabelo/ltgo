@@ -62,35 +62,6 @@ class Tools
             'lucro'        => $lucro,
             'pago'         => $pago,
             'data'         => isset($date['inicio'])? $date['inicio']:date('Y-m-d'),
-            'mounth'       => isset($queryParams['date'])? $queryParams['date']:date('m'),
-        ];
-    }
-
-    public function calculoVendaApp($dados)
-    {
-        $totalVendas = Venda::select(DB::raw('sum(total_final) as total'))->get();
-
-        $lucro = 0;
-        $totalMensal = 0;
-        $pago = 0;
-
-        $dataSource = [];
-        foreach ($dados as $item) {
-            
-            $lucro += $item->lucro;
-            $totalMensal += $item->total_final;
-            $pago += $item->pago;
-
-            array_push($dataSource, $item);
-        }
-
-        return [
-            'totalMensal'  => $totalMensal,
-            'totalVendas'  => $totalVendas[0]['total'],
-            'lucro'        => $lucro,
-            'pago'         => $pago,
-            'data'         => isset($date['inicio'])? $date['inicio']:date('Y-m-d'),
-            'mounth'       => isset($queryParams['date'])? $queryParams['date']:date('m'),
         ];
     }
 

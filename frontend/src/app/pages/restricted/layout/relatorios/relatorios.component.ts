@@ -89,6 +89,18 @@ export class RelatoriosComponent extends ControllerBase {
         this.loading = false;
       })
   }
+  
+  downloadCatalogo(){
+    this.loading = true;
+    this.sub.sink = this.relatorioService.getCatalogo().subscribe(
+      (res: any) => {
+        this.downloadPDF(res.file, res.data, 'catalago')
+      },
+      error => console.log(error),
+      ()=>{
+        this.loading = false;
+      })
+  }
 
   ngOnDestroy(){
     this.sub.unsubscribe();

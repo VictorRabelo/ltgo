@@ -51,9 +51,9 @@
 
       <div class="col-sm-12 form-group" *ngIf="(this.module !== 'categorias' && this.module !== 'users')">
         <label>{{ crud == 'alterar'? '':'*' }}Telefone:</label>
-        <input type="tel" class="form-control" name="telefone" [(ngModel)]="dados.telefone" #telefone="ngModel"
-          placeholder="(00) 00000-0000"
-          [mask]="'(00) 0 0000-0000'"
+        <input type="tel" class="form-control" name="telefone" 
+          [(ngModel)]="dados.telefone" #telefone="ngModel"
+          placeholder="(00) 00000-0000" [mask]="'(00) 0 0000-0000'"
           [ngClass]="{'is-invalid': !telefone.valid && (telefone.touched || form.submitted)}" />
       </div>
             

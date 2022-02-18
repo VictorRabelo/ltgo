@@ -5,11 +5,17 @@
     <div class="container-fluid">
       <div class="row mb-2">
         
-        <div class="col-9">
-          <h1 class="m-0 text-title-sales">Vendas - {{ today | date:'MM/yy' }}</h1>
+        <div class="col-10">
+          <h1 class="m-0 text-title-sales d-inline mr-5">Vendas - {{ today | date:'MM/yy' }}</h1>
+          
+          <label class="text-danger mr-1">Und Little vendidas: </label>
+          <span class="colorMoney mr-3">{{ qtdTotalLittle | number }}</span>
+          
+          <label class="text-danger mr-1">Preço média de venda little: </label>
+          <span class="colorMoney">{{ mediaTotalLittle | currency: 'R$' }}</span>
         </div>
         
-        <div class="col-3 text-right">
+        <div class="col-2 text-right">
           <button class="btn btn-primary btn-md" title="Filtro de Pesquisa" (click)="filterDate()">
             <i class="fas fa-search"></i>
           </button>           
@@ -23,7 +29,6 @@
   <section class="content">
     <div class="container-fluid">
       <div class="row">
-              
         <div class="col-6 col-md-3">
           <label class="text-danger d-block">Total de vendas: </label>
           <span class="colorMoney">{{ totalVendas | currency: 'R$' }}</span>

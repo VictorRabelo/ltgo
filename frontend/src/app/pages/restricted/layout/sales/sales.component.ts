@@ -26,6 +26,8 @@ export class SalesComponent implements OnInit, OnDestroy {
   totalMensal: number = 0;
   recebido: number = 0;
   lucro: number = 0;
+  mediaTotalLittle: number = 0.00;
+  qtdTotalLittle: number = 0;
   
   term: string;
 
@@ -66,6 +68,8 @@ export class SalesComponent implements OnInit, OnDestroy {
       this.recebido = res.pago;
       this.lucro = res.lucro;
       this.today = res.data;
+      this.qtdTotalLittle = res.mediaLittle.qtdVendaTotal;
+      this.mediaTotalLittle = res.mediaLittle.mediaTotal;
 
     },error =>{
       

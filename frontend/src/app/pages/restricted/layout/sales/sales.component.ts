@@ -44,7 +44,6 @@ export class SalesComponent implements OnInit, OnDestroy {
   }
 
   getStart(){
-    this.loading = true;
     this.getAll();
   }
   
@@ -53,14 +52,24 @@ export class SalesComponent implements OnInit, OnDestroy {
     modalRef.result.then(res => {
       if(res.date){
         this.filters.date = res.date;
-  
-        this.loading = true;
         this.getAll();
       }
     })
   }
   
+  zerar() {
+    this.totalVendas = 0;
+    this.totalMensal = 0;
+    this.recebido = 0;
+    this.lucro = 0;
+    this.mediaTotalLittle = 0.00;
+    this.qtdTotalLittle = 0;
+  }
+
   getAll() {
+    this.zerar();
+
+    this.loading = true;
     this.sub.sink = this.service.getAll(this.filters).subscribe(res => {
       this.dataSource = res.vendas;
       this.totalVendas = res.totalVendas;
@@ -68,8 +77,8 @@ export class SalesComponent implements OnInit, OnDestroy {
       this.recebido = res.pago;
       this.lucro = res.lucro;
       this.today = res.data;
-      this.qtdTotalLittle = res.mediaLittle.qtdVendaTotal;
-      this.mediaTotalLittle = res.mediaLittle.mediaTotal;
+      this.qtdTotalLittle = res.mediaLittle.qtdVendaTotal?res.mediaLittle.qtdVendaTotal:0;
+      this.mediaTotalLittle = res.mediaLittle.mediaTotal?res.mediaLittle.mediaTotal:0.00;
 
     },error =>{
       

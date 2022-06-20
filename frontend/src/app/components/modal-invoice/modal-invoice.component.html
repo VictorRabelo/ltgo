@@ -1,7 +1,7 @@
 <form #form="ngForm" (ngSubmit)="submit(form)" (keydown.enter)="submit(form)" class="card card-load mb-0">
   <div class="modal-header">
     <h4>Invoice</h4>
-    <button type="button" class="close" aria-label="Close" (click)="close()">
+    <button type="button" class="close" aria-label="Close" (click)="close(true)">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -26,7 +26,7 @@
   
     <button type="button" class="btn btn-outline-secondary" title="Expandir" (click)="expand()"><i class="fas fa-expand"></i></button>
     <button type="button" class="btn btn-outline-secondary mr-auto" title="Download" (click)="download()"><i class="fas fa-file-download"></i></button>
-    <button type="button" class="btn btn-secondary" (click)="close()">Voltar</button>
+    <button type="button" class="btn btn-secondary" (click)="close(true)">Voltar</button>
     <button type="submit" class="btn btn-success" [disabled]="loading">
       <i class="far fa-paper-plane"></i> Salvar
     </button>
@@ -35,7 +35,7 @@
 
 <div class="modal-invoice">
   <div class="modal-content-invoice">
-    <img src="/assets/img/sem_foto.jpg" id="modal_img">
+    <img [src]="path? path:'/assets/img/sem_foto.jpg'" id="modal_img">
   </div>
   <span id="bt_close" (click)="closeFullScreen()">&times;</span>
 </div>

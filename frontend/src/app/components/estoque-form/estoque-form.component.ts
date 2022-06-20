@@ -104,7 +104,7 @@ export class EstoqueFormComponent extends ControllerBase {
     }
     modalRef.result.then(res => {
       if (res) {
-        this.message.toastSuccess("ok!");
+        this.getById(this.data)
       }
     })
   }
@@ -202,7 +202,7 @@ export class EstoqueFormComponent extends ControllerBase {
     this.service.update(this.data, this.dados).subscribe(
       (res: any) => {
         this.message.toastSuccess("Atualização bem sucedido!");
-        this.getById(this.data);
+        this.close(res);
       },
       error => {
         this.loading = false;

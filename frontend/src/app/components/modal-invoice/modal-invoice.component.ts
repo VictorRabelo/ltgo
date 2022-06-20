@@ -61,11 +61,7 @@ export class ModalInvoiceComponent implements OnInit, OnDestroy {
 
   expand() {
     let modal = document.querySelector('.modal-invoice');
-    let modalImg = document.querySelector('#modal_img');
-    
-    modalImg.setAttribute('src', this.path);
-    modal.classList.add('modal_active');
-    
+    modal.classList.add('modal_active');  
   }
 
   closeFullScreen() {

@@ -14,6 +14,7 @@ import { SaleDetalheComponent } from './sales/sale-detalhe/sale-detalhe.componen
 import { MovitionComponent } from './movition/movition.component';
 import { EntregaDetalheComponent } from './entregas/entrega-detalhe/entrega-detalhe.component';
 import { EntregasDespesasComponent } from './entregas/entregas-despesas/entregas-despesas.component';
+import { FormasPagamentosComponent } from './formas-pagamentos/formas-pagamentos.component';
 
 const routes: Routes = [
   
@@ -47,6 +48,8 @@ const routes: Routes = [
   {path: 'relatorios', component: RelatoriosComponent, data: { animation: 'RelatoriosPage' }},
       
   {path: 'categorias', component: CategoriasComponent, data: { animation: 'CategoriasPage' }},
+
+  {path: 'formas-pagamentos', component: FormasPagamentosComponent, data: { animation: 'FormasPagamentosPage' }},
 
   {
     path: 'movimentacao', children: [

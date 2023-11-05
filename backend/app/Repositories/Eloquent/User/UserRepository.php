@@ -61,7 +61,9 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
             return false;
         }
         
-        $dados['password'] = Hash::make($dados['password']);
+        if (isset($dados['password'])) {
+            $dados['password'] = Hash::make($dados['password']);
+        }
         
         $resp->fill($dados);
 

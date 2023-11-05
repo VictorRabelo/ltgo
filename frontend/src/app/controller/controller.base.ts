@@ -108,4 +108,11 @@ export class ControllerBase implements OnInit, AfterContentInit, AfterViewInit, 
         }
         return bytes;
     }
+
+    getDate(): string {
+        const date = new Date().toISOString().split('T');
+        const hours = date[1].split('.');
+
+        return `${date[0]}`;
+    }
 }

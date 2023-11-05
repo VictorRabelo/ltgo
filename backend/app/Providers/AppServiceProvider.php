@@ -28,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind('App\Repositories\Contracts\Movition\MovitionRepositoryInterface','App\Repositories\Eloquent\Movition\MovitionRepository');
         $this->app->bind('App\Repositories\Contracts\Produto\ProdutoRepositoryInterface','App\Repositories\Eloquent\Produto\ProdutoRepository');
         $this->app->bind('App\Repositories\Contracts\Relatorio\RelatorioRepositoryInterface','App\Repositories\Eloquent\Relatorio\RelatorioRepository');
+        $this->app->bind('App\Repositories\Contracts\Maquininha\MaquininhaRepositoryInterface','App\Repositories\Eloquent\Maquininha\MaquininhaRepository');
         $this->app->bind('App\Repositories\Contracts\Venda\VendaRepositoryInterface','App\Repositories\Eloquent\Venda\VendaRepository');
         $this->app->bind('App\Repositories\Contracts\Entrega\EntregaRepositoryInterface','App\Repositories\Eloquent\Entrega\EntregaRepository');
         $this->app->bind('App\Resolvers\ApiCdiResolverInterface','App\Services\ApiCdiService');
@@ -36,6 +37,6 @@ class AppServiceProvider extends ServiceProvider
     
     public function boot()
     {
-        //
+        date_default_timezone_set('America/Sao_Paulo');
     }
 }

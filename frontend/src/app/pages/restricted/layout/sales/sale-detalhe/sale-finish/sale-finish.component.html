@@ -13,23 +13,28 @@
             <label>Total:</label>
             <input type="text" currencyMask readonly class="form-control" name="total_final" [(ngModel)]="dados.total_final">
           </div>
+          
           <div class="form-group">
             <label>Lucro:</label>
             <input type="text" currencyMask readonly class="form-control" name="lucro" [(ngModel)]="dados.lucro">
           </div>
+
           <div class="form-group" *ngIf="type == 'finish'">
             <label>Pagar:</label>
             <input type="text" currencyMask class="form-control" name="debitar" [(ngModel)]="dados.debitar" (focus)="configCalc()" (blur)="calcRestante()">
           </div>
+
           <div class="form-group">
             <label>Restante:</label>
             <input type="text" currencyMask readonly class="form-control" name="restante" [(ngModel)]="dados.restante" #restante="ngModel">
           </div>
+
           <div class="form-group">
             <label>Valor Recebido:</label>
             <input type="text" currencyMask readonly class="form-control" name="pago" [(ngModel)]="dados.pago">
           </div>
         </div>
+
         <div class="col-sm-6">
           <div class="form-group">
             <label>{{ (type == 'finish')? '*':'' }}Formas de Pagamento:</label>
@@ -42,6 +47,7 @@
               <option value="credito">Cartão de Crédito</option>
             </select>
           </div>
+
           <div class="form-group">
             <label>{{(type == 'finish')? '*':''}}Status:</label>
               <select class="form-control" required name="status" [(ngModel)]="dados.status" #status="ngModel"
@@ -51,10 +57,21 @@
                 <option value="pago">Pago</option>
               </select>
           </div>
+
+          <div class="form-group">
+            <label>{{ (type == 'finish')? '*':'' }}Tipo de Caixa:</label>
+            <select class="form-control" required name="caixa" [(ngModel)]="dados.caixa" #caixa="ngModel"
+              [ngClass]="{'is-invalid': !validVenda}" [disabled]="type == 'detail'">
+              <option value="">Selecione um caixa</option>
+              <option [value]="item.tipo" *ngFor="let item of tiposCaixas">{{ item.tipo | titlecase }}</option>
+            </select>
+          </div>
+
           <div class="form-group" *ngIf="type == 'finish' && dados.status != 'pago'">
             <label for="prazo" class="fieldset">Sem entrada?: </label>                            
             <input class="form-check-input ml-3" type="checkbox" id="prazo" name="prazo" [(ngModel)]="dados.prazo">
           </div>
+
         </div>
       </div>
       <div class="card-loader" *ngIf="loading"><i class="fas fa-sync-alt anim-rotate"></i></div>

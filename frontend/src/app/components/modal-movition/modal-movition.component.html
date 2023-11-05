@@ -34,6 +34,15 @@
         </select>
       </div>
 
+      <div class="form-group col-12" *ngIf="!type || type == 'diaria'">
+        <label class="fieldset">*Tipo de Caixa:</label>
+        <select class="form-control" required name="caixa" 
+          [(ngModel)]="dados.caixa" #caixa="ngModel"
+          [ngClass]="{'is-invalid': !caixa.valid && (caixa.touched || form.submitted)}">
+          <option value="">Selecione um caixa</option>
+          <option [value]="item.tipo" *ngFor="let item of tiposCaixas">{{ item.tipo | titlecase }}</option>
+        </select>
+      </div>
     </div>
   </div>
   

@@ -21,13 +21,18 @@ export class ModalMovitionComponent implements OnInit, OnDestroy {
 
   dados: any = {};
 
+  tiposCaixas: any[] = [];
+  validCaixass: boolean = true;
+
   constructor(
     private activeModal: NgbActiveModal,
     private service: MovitionService,
     private message: MessageService,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.getTiposCaixas();
+
     this.dados.status = this.type;
   }
 
@@ -36,11 +41,11 @@ export class ModalMovitionComponent implements OnInit, OnDestroy {
   }
 
   submit(form: NgForm) {
-    if (!form.valid) {
-      return false;
-    }
+    if (!form.valid) return false;
     
     this.loading = true;
+    
+    if(this.dados.caixa) this.dados.status = this.dados.caixa;
 
     this.service.store(this.dados).subscribe(
       (res: any) => {
@@ -54,6 +59,12 @@ export class ModalMovitionComponent implements OnInit, OnDestroy {
     );
   }
 
+  getTiposCaixas() {
+    this.service.getAllItem().subscribe(res => {
+      this.tiposCaixas = res;
+    },error =>console.log(error));
+  }
+  
   ngOnDestroy() {
     this.sub.unsubscribe();
   }

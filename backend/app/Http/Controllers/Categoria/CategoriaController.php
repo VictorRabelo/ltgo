@@ -34,6 +34,32 @@ class CategoriaController extends Controller
         }
     }
 
+    public function categoria()
+    {
+        try {
+
+            $res = $this->categoriaRepository->categoria();
+
+            return response()->json($res, 200);
+
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => $e->getMessage(), 'message' => 'Erro de servidor'], 500);
+        }
+    }
+    
+    public function subcategoria()
+    {
+        try {
+
+            $res = $this->categoriaRepository->subcategoria();
+
+            return response()->json($res, 200);
+
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => $e->getMessage(), 'message' => 'Erro de servidor'], 500);
+        }
+    }
+    
     public function show($id)
     {
         try {

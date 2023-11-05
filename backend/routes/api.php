@@ -77,6 +77,8 @@ Route::group(['prefix' =>'/v1'], function() {
     Route::group(['prefix' =>'/categorias'], function() {
         
         Route::get('/','Categoria\CategoriaController@index')->middleware(['auth:api', 'scope:admin']);
+        Route::get('/categoria','Categoria\CategoriaController@categoria')->middleware(['auth:api', 'scope:admin']);
+        Route::get('/subcategoria','Categoria\CategoriaController@subcategoria')->middleware(['auth:api', 'scope:admin']);
         Route::get('/{id}','Categoria\CategoriaController@show')->middleware(['auth:api', 'scope:admin']);
         
         Route::post('/','Categoria\CategoriaController@store')->middleware(['auth:api', 'scope:admin']);
@@ -161,6 +163,37 @@ Route::group(['prefix' =>'/v1'], function() {
         Route::delete('/{id}','Venda\VendaController@destroy')->middleware(['auth:api', 'scope:admin']);
 
     });
+
+    Route::group(['prefix' =>'/maquininhas'], function() {
+        
+        Route::group(['prefix' =>'/bandeiras'], function() {
+            Route::get('/','Maquininha\MaquininhaController@bandeiras')->middleware(['auth:api', 'scope:admin,entregador,vendedor']);
+            Route::get('/{id}','Maquininha\MaquininhaController@showBandeira')->middleware(['auth:api', 'scope:admin,entregador,vendedor']);
+            Route::post('/','Maquininha\MaquininhaController@storeBandeira')->middleware(['auth:api', 'scope:admin,entregador,vendedor']);
+            Route::put('/{id}','Maquininha\MaquininhaController@updateBandeira')->middleware(['auth:api', 'scope:admin,entregador,vendedor']);
+            Route::delete('/{id}','Maquininha\MaquininhaController@destroyBandeira')->middleware(['auth:api', 'scope:admin,entregador,vendedor']);
+
+        });
+
+        Route::group(['prefix' =>'/taxas'], function() {
+            Route::get('/','Maquininha\MaquininhaController@taxas')->middleware(['auth:api', 'scope:admin,entregador,vendedor']);
+            Route::get('/{id}','Maquininha\MaquininhaController@showTaxa')->middleware(['auth:api', 'scope:admin,entregador,vendedor']);
+            Route::post('/','Maquininha\MaquininhaController@storeTaxa')->middleware(['auth:api', 'scope:admin,entregador,vendedor']);
+            Route::put('/{id}','Maquininha\MaquininhaController@updateTaxa')->middleware(['auth:api', 'scope:admin,entregador,vendedor']);
+            Route::delete('/{id}','Maquininha\MaquininhaController@destroyTaxa')->middleware(['auth:api', 'scope:admin,entregador,vendedor']);
+
+        });
+        
+        Route::get('/','Maquininha\MaquininhaController@index')->middleware(['auth:api', 'scope:admin,entregador,vendedor']);
+        Route::get('/{id}','Maquininha\MaquininhaController@show')->middleware(['auth:api', 'scope:admin,entregador,vendedor']);
+        
+        Route::post('/','Maquininha\MaquininhaController@store')->middleware(['auth:api', 'scope:admin,entregador,vendedor']);   
+        Route::post('/finish','Maquininha\MaquininhaController@finishMaquininha')->middleware(['auth:api', 'scope:admin,entregador,vendedor']);
+        
+        Route::put('/{id}','Maquininha\MaquininhaController@update')->middleware(['auth:api', 'scope:admin,entregador,vendedor']);
+        
+        Route::delete('/{id}','Maquininha\MaquininhaController@destroy')->middleware(['auth:api', 'scope:admin']);
+    });
     
     Route::group(['prefix' =>'/entregas'], function() {
         
@@ -226,8 +259,16 @@ Route::group(['prefix' =>'/v1'], function() {
 
     });
     
-    Route::group(['prefix' =>'/movition'], function() {
-        
+    Route::group(['prefix' =>'/caixa'], function() {
+        Route::group(['prefix' =>'/tipos'], function() {
+            Route::get('/','Movition\MovitionController@getAllItem')->middleware(['auth:api', 'scope:admin,entregador,vendedor']);
+            Route::get('/{id}','Movition\MovitionController@getItemById')->middleware(['auth:api', 'scope:admin']);
+            Route::post('/','Movition\MovitionController@storeItem')->middleware(['auth:api', 'scope:admin']);
+            Route::put('/{id}','Movition\MovitionController@updateItem')->middleware(['auth:api', 'scope:admin']);
+            Route::delete('/{id}','Movition\MovitionController@destroyItem')->middleware(['auth:api', 'scope:admin']);
+
+        });
+
         Route::get('/','Movition\MovitionController@index')->middleware(['auth:api', 'scope:admin']);
         Route::get('/geral','Movition\MovitionController@geral')->middleware(['auth:api', 'scope:admin']);
         Route::get('/eletronico','Movition\MovitionController@eletronico')->middleware(['auth:api', 'scope:admin']);
@@ -239,7 +280,6 @@ Route::group(['prefix' =>'/v1'], function() {
         Route::put('/{id}','Movition\MovitionController@update')->middleware(['auth:api', 'scope:admin']);
         
         Route::delete('/{id}','Movition\MovitionController@destroy')->middleware(['auth:api', 'scope:admin']);
-
     });
     
     Route::group(['prefix' =>'/relatorios'], function() {

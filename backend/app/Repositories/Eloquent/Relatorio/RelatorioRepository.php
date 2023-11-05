@@ -18,8 +18,8 @@ use App\Models\EntregaItem;
 use App\Models\ProdutoVenda;
 use App\Models\DespesaEntrega;
 use App\Models\Movition;
+use App\Models\Produto;
 use App\Models\Venda;
-
 class RelatorioRepository extends AbstractRepository implements RelatorioRepositoryInterface
 {
     /**
@@ -110,12 +110,18 @@ class RelatorioRepository extends AbstractRepository implements RelatorioReposit
         return ['file' => $base,'data' => $data_now];
     }
 
-    public function catalogo()
+    public function catalogo($queryParams)
     {
         $data_now = $this->dateNow();
+        
+        if(empty($queryParams['categoria_id'])){
+            $sql = 'SELECT * from `produtos` WHERE `produtos`.`status` = "ok" GROUP BY `produtos`.`categoria_id` ORDER BY `produtos`.`name` ASC';
+            $products = DB::select($sql);
+        } else {
+            $sql = 'SELECT * from `produtos` WHERE `produtos`.`status` = "ok" AND `produtos`.`categoria_id` = '.$queryParams['categoria_id'].' GROUP BY `produtos`.`categoria_id` ORDER BY `produtos`.`name` ASC';
+            $products = DB::select($sql);
+        }
     
-        $sql = 'SELECT * from `produtos` WHERE `produtos`.`status` = "ok" GROUP BY `produtos`.`categoria_id` ORDER BY `produtos`.`name` ASC';
-        $products = DB::select($sql);
         
         $pdf = PDF::loadView('pdf.catalogo', compact('products', 'data_now'));
         $result = $pdf->download($data_now.'.pdf');

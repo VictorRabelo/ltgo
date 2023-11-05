@@ -23,17 +23,17 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            <div class="row text-right">
+            <div class="row">
                 <div class="col-4">
-                    <label class="text-danger text-indicator">Saldo a Receber: </label>
+                    <label class="text-danger text-indicator">Saldo a Receber:</label>
                     <span>{{ saldoReceber | currency: 'R$' }}</span>
                 </div>
                 <div class="col-4">
-                    <label class="text-danger text-indicator">Saldo Pago: </label>
+                    <label class="text-danger text-indicator">Saldo Pago:</label>
                     <span>{{ saldoPago | currency: 'R$' }}</span>
                 </div>
                 <div class="col-4">
-                    <label class="text-danger text-indicator">Total Restante: </label>
+                    <label class="text-danger text-indicator">Total Restante:</label>
                     <span>{{ totalRestante | currency: 'R$' }}</span>
                 </div>
             </div>
@@ -67,6 +67,7 @@
                                         <th scope="col">Data</th>
                                         <th scope="col">Nome</th>
                                         <th scope="col">Telefone</th>
+                                        <th scope="col">Pendente</th>
                                         <th scope="col">Total</th>
                                         <th scope="col">Pago</th>
                                         <th scope="col">Restante</th>
@@ -79,6 +80,7 @@
                                         <td>{{ item.created_at }}</td>
                                         <td>{{ item.nameCliente }}</td>
                                         <td>{{ item.telefoneCliente | mask: '(00) 00000-0000' }}</td>
+                                        <td>{{ item.pagamento }}</td>
                                         <td>{{ item.total_final | currency: 'R$' }}</td>
                                         <td>{{ item.pago | currency: 'R$' }}</td>
                                         <td>{{ item.restante | currency: 'R$' }}</td>

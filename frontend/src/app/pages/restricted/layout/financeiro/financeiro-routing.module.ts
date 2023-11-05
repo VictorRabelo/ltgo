@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { APagarComponent } from './a-pagar/a-pagar.component';
 import { AReceberComponent } from './a-receber/a-receber.component';
 import { CaixaDolarComponent } from './caixa-dolar/caixa-dolar.component';
+import { DespesasComponent } from './despesas/despesas.component';
 
 const routes: Routes = [
 
@@ -13,6 +14,8 @@ const routes: Routes = [
   
   {path: 'a-pagar', component: APagarComponent},
 
+  {path: 'despesas', component: DespesasComponent},
+
   {path: 'caixa-dolar', component: CaixaDolarComponent},
 
 ];
@@ -21,4 +24,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class CaixaRoutingModule { }
+export class FinanceiroRoutingModule { }

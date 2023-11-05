@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ControllerBase } from '@app/controller/controller.base';
 import { VendaService } from '@app/services/venda.service';
+import { RelatorioService } from '@app/services/relatorio.service';
+import { ModalDebitarComponent } from '@app/components/modal-debitar/modal-debitar.component';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from '@app/services/message.service';
@@ -11,8 +13,6 @@ import { SubSink } from 'subsink';
 
 declare let $: any;
 import 'bootstrap';
-import { ModalDebitarComponent } from '@app/components/modal-debitar/modal-debitar.component';
-import { RelatorioService } from '@app/services/relatorio.service';
 
 @Component({
   selector: 'app-a-receber',
@@ -152,7 +152,7 @@ export class AReceberComponent extends ControllerBase {
         this.loading = false;
       })
   }
-
+  
   ngOnDestroy() {
     this.sub.unsubscribe();
   }

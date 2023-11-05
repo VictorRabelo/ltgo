@@ -1,0 +1,92 @@
+<div class="content-wrapper">
+  <div class="card mt-2" [ngClass]="{'card-load': loading}">  
+    <div class="card-loader" *ngIf="loading"><i class="fas fa-sync-alt anim-rotate"></i></div>
+    <div class="card-header">
+      <h4 class="title-card-header-cutsom">
+        <button type="button" class="btn btn-sm mr-2" [routerLink]="[ '/restricted/vendas' ]">
+          <i class="fa fa-arrow-left"></i>
+        </button>
+        Detalhes da maquininha:
+        <!-- <span class="badge badge-success" *ngIf="vendaCurrent.status === 'pago'">{{vendaCurrent.status}}</span>
+        <span class="badge badge-warning" *ngIf="vendaCurrent.status === 'pendente'">{{vendaCurrent.status}}</span>
+        <span class="badge badge-primary" *ngIf="!vendaCurrent.status">Aberta</span>
+        <div class="float-right">
+          <button type="button" class="btn btn-success mr-2" (click)="finishSale()" *ngIf="!vendaCurrent.status">
+            <i class="fas fa-check"></i> Finalizar
+          </button>
+          <button type="button" class="btn btn-primary mr-2" (click)="detailSale()" *ngIf="vendaCurrent.status">
+            <i class="fas fa-eye"></i> Detalhes
+          </button>
+        </div> -->
+      </h4>  
+    </div>
+  
+    <div class="card-body">
+  
+      <div class="row form-group">
+        <div class="col-sm-3 form-group">
+          <label>Nome:</label>
+          <div class="input-group">
+            <input type="text" readonly class="form-control" [(ngModel)]="vendaCurrent.nome">
+            <div class="input-group-append" *ngIf="!vendaCurrent.status">
+              <button class="btn btn-light" (click)="openPessoal()">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="row" *ngIf="!vendaCurrent.status">
+        <div class="col-sm-4 form-group">
+          <button class="btn btn-primary" (click)="openProducts()">
+            <i class="fas fa-search"></i> Pesquisar Produtos
+          </button>
+        </div>
+      </div> -->
+  
+      <!-- <div class="table-responsive" style="height: 100%;">
+        <table class="table table-hover text-nowrap">
+          <thead>
+            <th>#COD</th>
+            <th>Qtd.</th>
+            <th>Foto</th>
+            <th>Produto</th>
+            <th>Lucro Total</th>
+            <th>Lucro Unit.</th>
+            <th>Valor Unit.</th>
+            <th>Valor Total</th>
+            <th *ngIf="!vendaCurrent.status">Ação</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of vendaCurrent.itens;">
+              <td>{{ item.produto.id_produto }}</td>
+              <td>{{item.qtd_venda | number}}</td>
+              <td>
+                <async-image url="{{ item.produto.path }}"></async-image>
+              </td>
+              <td>{{ item.produto.name | titlecase }}</td>
+              <td>{{ item.lucro_total | currency:'R$' }}</td>
+              <td>{{ item.lucro_venda | currency:'R$' }}</td>
+              <td>{{ item.preco_venda | currency:'R$' }}</td>
+              <td>{{ item.total_venda | currency:'R$' }}</td>
+              <td *ngIf="!vendaCurrent.status">
+                <button class="btn btn-sm btn-primary mr-2" (click)="openItem(item.id)">
+                  <i class="fas fa-pen"></i>
+                </button>
+                <button class="btn btn-sm btn-danger" (click)="deleteItemConfirm(item)">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="vendaCurrent.itens.length == 0">
+            <tr class="text-center">
+              <td colspan="9">Não há itens no momento</td>
+            </tr>
+          </tbody>
+        </table>
+      </div> -->
+    </div>
+  </div>
+</div>

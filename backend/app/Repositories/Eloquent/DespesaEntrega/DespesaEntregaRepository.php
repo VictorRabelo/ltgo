@@ -43,7 +43,7 @@ class DespesaEntregaRepository extends AbstractRepository implements DespesaEntr
                 if($queryParams['date'] == 0){
                     $dados = $this->model->with('entregador')->orderBy('created_at', 'desc')->get();
                 } else {
-                    $date = $this->dateFilter($queryParams['date']);
+                    $date = $this->filterDate($queryParams['date']);
                     $dados = $this->model->with('entregador')->whereBetween('created_at', [$date['inicio'], $date['fim']])->orderBy('created_at', 'desc')->get();
                 }
     
@@ -70,8 +70,8 @@ class DespesaEntregaRepository extends AbstractRepository implements DespesaEntr
             if($queryParams['date'] == 0){
                 $dados = $this->model->with('entregador')->where('entregador_id', $id)->orderBy('created_at', 'desc')->get();
             } else {
-                $date = $this->dateFilter($queryParams['date']);
-                $dados = $this->model->with('entregador')->whereBetween('created_at', [$date['inicio'], $date['fim']])->orderBy('created_at', 'desc')->get();
+                $date = $this->filterDate($queryParams['date']);
+                $dados = $this->model->with('entregador')->where('entregador_id', $id)->whereBetween('created_at', [$date['inicio'], $date['fim']])->orderBy('created_at', 'desc')->get();
             }
 
             if (!$dados) {
@@ -80,7 +80,7 @@ class DespesaEntregaRepository extends AbstractRepository implements DespesaEntr
 
         } else {
             $date = $this->dateToday();
-            $dados = $this->model->with('entregador')->whereBetween('created_at', [$date['inicio'], $date['fim']])->orderBy('created_at', 'desc')->get();
+            $dados = $this->model->with('entregador')->where('entregador_id', $id)->whereBetween('created_at', [$date['inicio'], $date['fim']])->orderBy('created_at', 'desc')->get();
             if (!$dados) {
                 return $this->messages->error;
             }

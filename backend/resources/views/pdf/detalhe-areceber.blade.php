@@ -48,17 +48,15 @@
     <body>
         <table class="customers">
             <tr>
-                <th colspan="4">Venda - {{date('d/m/Y H:i:s', strtotime($dadosVenda->created_at))}}</th>
+                <th colspan="3">Venda - {{date('d/m/Y H:i:s', strtotime($dadosVenda->created_at))}}</th>
             </tr>
             <tr>
                 <th>Cliente</th>
-                <th>Qtd</th>
-                <th>Valor Pago</th>
-                <th>Valor Vendido</th>
+                <th>Valor Recebido</th>
+                <th>Valor da Venda</th>
             </tr>
             <tr>
                 <td>{{ $dadosVenda->cliente?$dadosVenda->cliente:'Cliente não informado' }}</td>
-                <td>{{ $dadosVenda->qtd_produto }}</td>
                 <td>{{ 'R$ '.number_format($dadosVenda->pago, 2, ',', '.') }}</td>
                 <td>{{ 'R$ '.number_format($dadosVenda->total_final, 2, ',', '.') }}</td>
             </tr>
@@ -94,7 +92,7 @@
         
         <table class="customers">
             <tr>
-                <th colspan="3">Registro de movimentações</th>
+                <th colspan="3">Pagamentos efetuados</th>
             </tr>
             @if (count($dadosMovition) > 0)    
                 <tr>

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 
 @Injectable({ 
@@ -35,8 +36,8 @@ export class RelatorioService {
         return this.http.get<any>(`${environment.apiUrl}/relatorios/clientes`).pipe(map(res =>{ return res.response }));
     }
     
-    getCatalogo(queryParams: any = {}) {
-        return this.http.get<any>(`${environment.apiUrl}/relatorios/catalogo`, { params: queryParams }).pipe(map(res =>{ return res.response }));
+    getCatalogo(queryParams: any = {}): Observable<Blob> {
+        return this.http.get(`${environment.apiUrl}/relatorios/catalogo`, { params: queryParams, responseType: 'blob' });
     }
     
     getVendaAReceber(id: number) {

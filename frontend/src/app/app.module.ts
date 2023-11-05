@@ -28,9 +28,11 @@ import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
 // PrimeNG
+import { FilterService } from 'primeng/api';
 import { FileUploadModule } from 'primeng/fileupload';
 import { RippleModule } from 'primeng/ripple';
 import { ToastModule } from 'primeng/toast';
+import { TableModule } from 'primeng/table';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 // Ng2
@@ -68,6 +70,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     
     NgxIziToastModule,
     ToastModule,
+    TableModule,
     RippleModule,
     FileUploadModule,
     ProgressSpinnerModule,
@@ -96,6 +99,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     EffectsModule.forRoot([AuthEffects]),
   ],
   providers: [
+    FilterService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: HttpProgressInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { CaixaRoutingModule } from './caixa-routing.module';
+import { FinanceiroRoutingModule } from './financeiro-routing.module';
 
 import { APagarComponent } from './a-pagar/a-pagar.component';
 import { AReceberComponent } from './a-receber/a-receber.component';
@@ -14,6 +14,7 @@ import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { CurrencyMaskInputMode, NgxCurrencyModule } from "ngx-currency";
+import { DespesasComponent } from './despesas/despesas.component';
 
 export const customCurrencyMaskConfig = {
   align: "left",
@@ -35,18 +36,19 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
   declarations: [
     APagarComponent,
     AReceberComponent,
-    CaixaDolarComponent
+    CaixaDolarComponent,
+    DespesasComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
     ToastModule,
-    CaixaRoutingModule,
+    FinanceiroRoutingModule,
     AutocompleteLibModule,
     Ng2SearchPipeModule,
     NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
     NgxMaskModule.forRoot()
   ]
 })
-export class CaixaModule { }
+export class FinanceiroModule { }

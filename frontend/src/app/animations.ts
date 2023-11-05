@@ -23,7 +23,7 @@ export const slideInLayoutAnimation =
                 animate('800ms ease', 
                     style({ opacity: 1, transform: 'translateX(0)' })
                 )
-            ])
+            ],{ optional: true })
         ])
     ]);
 

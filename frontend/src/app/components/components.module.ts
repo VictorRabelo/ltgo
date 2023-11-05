@@ -22,9 +22,25 @@ import { ModalMovitionComponent } from './modal-movition/modal-movition.componen
 
 import { UtilModule } from '@app/util/util.module';
 
+// PrimeNG
+import { ToastModule } from 'primeng/toast';
+import { FileUploadModule } from 'primeng/fileupload';
+import { RippleModule } from 'primeng/ripple';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { TableModule } from 'primeng/table';
+import { CardModule } from 'primeng/card';
+import { ToolbarModule } from 'primeng/toolbar';
+import { TooltipModule } from 'primeng/tooltip';
+import { AccordionModule } from 'primeng/accordion';
+import { AutoCompleteModule } from 'primeng-lts/autocomplete';
+
 import { NgxMaskModule } from 'ngx-mask';
 import { CurrencyMaskInputMode, NgxCurrencyModule } from 'ngx-currency';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { TableComponent } from './table/table.component';
+import { TiposFormComponent } from './tipos-form/tipos-form.component';
+
 
 export const customCurrencyMaskConfig = {
   align: "right",
@@ -57,12 +73,26 @@ export const customCurrencyMaskConfig = {
     FilterFormComponent,
     TimerComponent,
     FormaPagamentoFormComponent,
-
+    TableComponent,
+    TiposFormComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     UtilModule,
+
+    ToastModule,
+    FileUploadModule,
+    RippleModule,
+    ProgressSpinnerModule,
+    ProgressBarModule,
+    TableModule,
+    CardModule,
+    ToolbarModule,
+    TooltipModule,
+    AccordionModule,
+    AutoCompleteModule,
+
     MatTabsModule,
     Ng2SearchPipeModule,
     MatStepperModule,
@@ -84,7 +114,8 @@ export const customCurrencyMaskConfig = {
     FilterFormComponent,
     TimerComponent,
     FormaPagamentoFormComponent,
-
+    TableComponent,
+    TiposFormComponent
   ],
   entryComponents: [
     ClienteFormComponent,
@@ -101,7 +132,8 @@ export const customCurrencyMaskConfig = {
     FilterFormComponent,
     TimerComponent,
     FormaPagamentoFormComponent,
-
+    TableComponent,
+    TiposFormComponent
   ],
 })
 export class ComponentsModule { }

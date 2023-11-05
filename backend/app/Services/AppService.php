@@ -98,7 +98,7 @@ class AppService extends AbstractRepository implements AppResolverInterface
             if($queryParams['date'] == 0){
                 $dados = Venda::with('produto', 'cliente', 'vendedor')->where('vendedor_id', $userId)->orderBy('id_venda', 'desc')->get();
             } else {
-                $date = $this->dateFilter($queryParams['date']);
+                $date = $this->filterDate($queryParams['date']);
                 $dados = Venda::with('produto', 'cliente', 'vendedor')->where('vendedor_id', $userId)->whereBetween('created_at', [$date['inicio'], $date['fim']])->orderBy('id_venda', 'desc')->get();
             }
 
@@ -175,8 +175,8 @@ class AppService extends AbstractRepository implements AppResolverInterface
     public function getEntregasDisponiveis() {
         $userId =  auth()->user()->id;
         
-        $date = $this->dateToday();
-        $dados = Entrega::with('entregador')->where('entregador_id', $userId)->where('status', 'pendente')->whereBetween('created_at', [$date['inicio'], $date['fim']])->orderBy('id_entrega', 'desc')->get();
+        // $date = $this->dateToday()->whereBetween('created_at', [$date['inicio'], $date['fim']]);
+        $dados = Entrega::with('entregador')->where('entregador_id', $userId)->where('status', 'pendente')->orderBy('id_entrega', 'desc')->get();
         
         if (!$dados) {
             return $this->messages->error;
@@ -199,7 +199,7 @@ class AppService extends AbstractRepository implements AppResolverInterface
             if($queryParams['date'] == 0){
                 $dados = Entrega::with('entregador')->where('entregador_id', $userId)->orderBy('id_entrega', 'desc')->get();
             } else {
-                $date = $this->dateFilter($queryParams['date']);
+                $date = $this->filterDate($queryParams['date']);
                 $dados = Entrega::with('entregador')->where('entregador_id', $userId)->whereBetween('created_at', [$date['inicio'], $date['fim']])->orderBy('id_entrega', 'desc')->get();
             }
 
@@ -227,7 +227,7 @@ class AppService extends AbstractRepository implements AppResolverInterface
     
     private function aPrazoVenda($dados)
     {
-        if(!isset($dados['prazo'])) {
+        if(!isset($dados['prazo']) || !$dados['prazo']) {
             
             $dateNow = $this->dateNow();
 
@@ -273,8 +273,7 @@ class AppService extends AbstractRepository implements AppResolverInterface
     public function createItemEntregador($dados)
     {
         $dadosProduto = Produto::where('id_produto', $dados['produto_id'])->first();
-        $lucroProduto = $dados['preco_venda'] - $dadosProduto->unitario;
-        $dados['lucro_venda'] = $lucroProduto * $dados['qtd_venda'];
+        $dados['lucro_venda']  = $dados['preco_venda'] - $dadosProduto->unitario;
         
         $result = ProdutoVenda::create($dados);
         if(!$result){

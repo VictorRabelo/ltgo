@@ -77,8 +77,11 @@ export class SalesComponent implements OnInit, OnDestroy {
       this.recebido = res.pago;
       this.lucro = res.lucro;
       this.today = res.data;
-      this.qtdTotalLittle = res.mediaLittle.qtdVendaTotal?res.mediaLittle.qtdVendaTotal:0;
-      this.mediaTotalLittle = res.mediaLittle.mediaTotal?res.mediaLittle.mediaTotal:0.00;
+      
+      if(res.mediaLittle) {
+        this.qtdTotalLittle = res.mediaLittle.qtdVendaTotal?res.mediaLittle.qtdVendaTotal:0;
+        this.mediaTotalLittle = res.mediaLittle.mediaTotal?res.mediaLittle.mediaTotal:0.00;
+      }
 
     },error =>{
       

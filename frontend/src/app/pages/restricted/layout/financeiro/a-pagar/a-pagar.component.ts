@@ -39,7 +39,7 @@ export class APagarComponent extends ControllerBase {
   }
  
   getAll(){
-    this.sub.sink = this.despesaService.getAll().subscribe(
+    this.sub.sink = this.despesaService.getAll({despesa: false}).subscribe(
       (res: any) => {
         this.loading = false;
         this.despesas = res.response;

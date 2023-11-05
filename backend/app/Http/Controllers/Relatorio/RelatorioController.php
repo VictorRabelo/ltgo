@@ -6,6 +6,7 @@ use App\Enums\CodeStatusEnum;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 
 use App\Repositories\Contracts\Relatorio\RelatorioRepositoryInterface;
 
@@ -137,11 +138,11 @@ class RelatorioController extends Controller
         }
     }
 
-    public function catalogo()
+    public function catalogo(Request $request)
     {
         try {
 
-            $res = $this->relatorioRepository->catalogo();
+            $res = $this->relatorioRepository->catalogo($request->all());
 
             if (isset($res->code) && $res->code == CodeStatusEnum::ERROR_SERVER) {
                 return response()->json(['message' => $res->message], $res->code);

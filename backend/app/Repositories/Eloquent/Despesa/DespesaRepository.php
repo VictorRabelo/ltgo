@@ -21,16 +21,44 @@ class DespesaRepository extends AbstractRepository implements DespesaRepositoryI
      */
     protected $tools = Tools::class;
 
-    public function index()
+    public function index($queryParams)
     {
-        $model = Despesa::orderBy('created_at', 'desc')->get();
+        if (isset($queryParams['despesa']) && $queryParams['despesa'] == 'true') {
+            
+            if (isset($queryParams['date'])) {
+                $date = $this->filterDate($queryParams['date']);
+                $model = Despesa::whereBetween('data', [$date['inicio'], $date['fim']])->where('despesa', '=', 1)->orderBy('created_at', 'desc')->get();
+            
+                
+            } else {
+                $date = $this->dateMonth();
+                $model = Despesa::whereBetween('data', [$date['inicio'], $date['fim']])->where('despesa', '=', 1)->orderBy('created_at', 'desc')->get();
+
+            }
+            
+        } else {
+            
+            if (isset($queryParams['date'])) {
+                $date = $this->filterDate($queryParams['date']);
+                $model = Despesa::whereBetween('data', [$date['inicio'], $date['fim']])->where('despesa', '=', 0)->orderBy('created_at', 'desc')->get();
+                
+            } else {
+                $date = $this->dateMonth();
+                $model = Despesa::whereBetween('data', [$date['inicio'], $date['fim']])->where('despesa', '=', 0)->orderBy('created_at', 'desc')->get();
+            }
+        }
+        
         if (!$model) {
             return ['message' => 'Falha ao processar as despesas!', 'code' => 500];
         }
 
         $saldo = $this->tools->calcularSaldo($model);
 
-        return ['response' => $model, 'saldo' => $saldo];
+        return [
+            'response' => $model, 
+            'saldo' => $saldo, 
+            'date' => is_null($date['inicio'])? date('Y-m-d') : $date['inicio'] 
+        ];
     }
 
     public function movimentacao()

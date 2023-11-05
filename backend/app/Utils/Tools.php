@@ -54,7 +54,8 @@ class Tools
 
             array_push($dataSource, $item);
         }
-
+        
+        
         return [
             'vendas'       => $dataSource,
             'totalMensal'  => $totalMensal,
@@ -62,7 +63,36 @@ class Tools
             'lucro'        => $lucro,
             'pago'         => $pago,
             'data'         => is_null($date['inicio'])? date('Y-m-d'):$date['inicio'],
+            'mediaLittle'  => $this->calculoLittleTrees($date)
         ];
+    }
+
+    public function calculoLittleTrees($date = null)
+    {
+        if(is_null($date)) {
+            $date = ['inicio' => date('Y-m-01'.' '.'00:00'),'fim' => date('Y-m-t'.' '.'23:59')];
+        }
+        
+        $sql = 'SELECT `produto_venda`.*, `produtos`.`id_produto`, `categorias`.`id_categoria` from `produto_venda` inner join `produtos` on `produtos`.`id_produto` = `produto_venda`.`produto_id` inner join `vendas` on `vendas`.`id_venda` = `produto_venda`.`venda_id` inner join `categorias` on `categorias`.`id_categoria` = `produtos`.`categoria_id` WHERE `categorias`.`id_categoria` = 4 AND `produto_venda`.`created_at` BETWEEN "'.$date['inicio'].'" AND "'.$date['fim'].'"';
+        $products = DB::select($sql);
+        
+        if(empty($products)){
+            return false;    
+        }
+        
+        $mediaUnitaria = 0;
+        $calculo = 0;
+        $qtdVendaTotal = 0;
+        $count = count($products);
+        
+        foreach ($products as $item) {
+            $qtdVendaTotal += $item->qtd_venda;
+            $calculo += $item->preco_venda * $item->qtd_venda;
+        }
+
+        $mediaTotal = $calculo / $qtdVendaTotal;
+        
+        return [ 'mediaTotal' => $mediaTotal,'qtdVendaTotal' => $qtdVendaTotal ];
     }
 
     public function somatoriaGeralVendasApp($dadosApp,$dadosApi)

@@ -1,31 +1,31 @@
-<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0">Contas a Pagar</h1>
-                </div><!-- /.col -->
-                <div class="col-sm-6">
+                <div class="col-9">
+                    <h1 class="m-0">Despesas - {{ today | date:'MM/yy' }}</h1>
+                </div>
+                <div class="col-3 mb-2 text-right">
+                    <button class="btn btn-primary btn-md" title="Filtro de Pesquisa" (click)="filterDate()">
+                      <i class="fas fa-search"></i>
+                    </button>           
+                </div>
+                <div class="col-12 text-right">
                     <ol class="breadcrumb float-sm-right">
-                        <!--  
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Dashboard v1</li>
-                        -->
+                        <li class="breadcrumb-item"><a [routerLink]="['/restricted/home']"><i class="fas fa-home"></i></a></li>
+                        <li class="breadcrumb-item active">Despesas</li>
                     </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- /.content-header -->
 
-    <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
             <div class="row text-right">
                 <div class="col-4 col-md-3 ml-auto">
-                    <label class="text-danger">Saldo a pagar: </label>
+                    <label class="text-danger">Total: </label>
                     <span class="pl-2">{{ saldo | currency: 'R$' }}</span>
                 </div>
             </div>
@@ -75,7 +75,7 @@
                                 </tbody>
                                 <tbody *ngIf=" despesas.length == 0 ">
                                     <tr class="text-center">
-                                        <td colspan="4">Não há Contas a Pagar no momento</td>
+                                        <td colspan="4">Não há despesas no momento</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -96,7 +96,7 @@
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Conta a pagar</h4>
+                    <h4 class="modal-title">Despesa</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

@@ -70,15 +70,14 @@
         
         <table class="customers">
             <tr>
-                <th colspan="6">Produtos da entrega</th>
+                <th colspan="6">Produtos Adicionados</th>
             </tr>
             <tr>
                 <th>#COD</th>
                 <th>Qtd.</th>
                 <th>Foto</th>
                 <th>Produto</th>
-                <th>Valor</th>
-                <th>Lucro</th>
+                <th>Valor Total Sugerido</th>
             </tr>
             @foreach ($dadosProdutos as $data)
                 <tr>
@@ -89,7 +88,6 @@
                     </td>
                     <td>{{ $data->produto->name }}</td>
                     <td>{{ 'R$ '.number_format($data->preco_entrega, 2, ',', '.') }}</td>
-                    <td>{{ 'R$ '.number_format($data->lucro_entrega, 2, ',', '.') }}</td>
                 </tr>
             @endforeach
         </table>
@@ -126,16 +124,14 @@
         
         <table class="customers">
             <tr>
-                <th colspan="7">Vendas - {{ $dadosEntrega->entregador }} - {{date('d/m/Y', strtotime($data_now))}}</th>
+                <th colspan="5">Vendas - {{ $dadosEntrega->entregador }} - {{date('d/m/Y', strtotime($data_now))}}</th>
             </tr>
             @if (count($dadosVendas) > 0)    
                 <tr>
                     <th>Cliente</th>
                     <th>Qtd</th>
                     <th>Produtos</th>
-                    <th>Valor Pago</th>
                     <th>Valor Vendido</th>
-                    <th>Lucro</th>
                     <th>Pagamento</th>
                 </tr>
                 @foreach ($dadosVendas as $data)
@@ -147,9 +143,7 @@
                                 <span>{{ $value->name }}<span><br>
                             @endforeach
                         </td>
-                        <td>{{ 'R$ '.number_format($data->pago, 2, ',', '.') }}</td>
                         <td>{{ 'R$ '.number_format($data->total_final, 2, ',', '.') }}</td>
-                        <td>{{ 'R$ '.number_format($data->lucro, 2, ',', '.') }}</td>
                         <td>{{ $data->pagamento }}</td>
                     </tr>
                 @endforeach    

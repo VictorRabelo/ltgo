@@ -22,7 +22,8 @@ class CreateVendasTable extends Migration
             $table->float('pago', 8, 2)->nullable();
             $table->float('restante', 8, 2)->nullable();
             $table->integer('qtd_produto')->nullable();
-            $table->string('pagamento', ['dinheiro','debito','credito', 'pix'])->nullable();
+            $table->string('caixa');
+            $table->enum('pagamento', ['dinheiro','debito','credito', 'pix'])->nullable();
             $table->enum('status', ['pago','pendente'])->nullable();
         });
     }

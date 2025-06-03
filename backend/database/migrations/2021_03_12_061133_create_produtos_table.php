@@ -25,10 +25,13 @@ class CreateProdutosTable extends Migration
             $table->string('name');
             $table->string('descricao')->nullable();
             $table->float('preco', 8, 2);
+            $table->float('unitario', 8, 2);
+            $table->float('comissao', 8, 2);
             $table->float('valor_total', 8, 2);
             $table->enum('tipo', ['br', 'usa', 'py']);
+            $table->string('tipo_entrega')->nullable();
             $table->enum('status', ['ok', 'pendente', 'pago', 'vendido']);
-            
+
         });
     }
 

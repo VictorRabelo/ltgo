@@ -20,7 +20,7 @@ class CreateMovitionsTable extends Migration
             $table->float('valor', 8, 2)->nullable();
             $table->string('descricao')->nullable();
             $table->enum('tipo', ['entrada','saida'])->nullable();
-            $table->enum('status', ['eletronico','geral'])->nullable();
+            $table->string('status');
         });
     }
 

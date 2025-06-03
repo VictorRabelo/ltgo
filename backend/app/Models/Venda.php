@@ -32,10 +32,8 @@ class Venda extends Model
         'caixa',
     ];
 
-    protected $hidden = [];
-    
     protected $dates = ['created_at', 'updated_at'];
-    
+
     protected $casts = [
         'created_at' => 'datetime:d-m-Y H:i:s',
         'updated_at' => 'datetime:d-m-Y H:i:s',

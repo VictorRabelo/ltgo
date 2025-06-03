@@ -19,6 +19,7 @@
             </p>
           </a>
         </li>
+
         <li class="nav-item">
           <a [routerLink]="['/restricted/vendas']" routerLinkActive="link-active" class="nav-link">
             <i class="nav-icon fas fa-edit"></i>
@@ -27,6 +28,7 @@
             </p>
           </a>
         </li>
+
         <li class="nav-item">
           <a [routerLink]="['/restricted/estoque']" routerLinkActive="link-active" class="nav-link">
             <i class="nav-icon fas fa-cubes"></i>
@@ -35,6 +37,7 @@
             </p>
           </a>
         </li>
+
         <li class="nav-item">
           <a [routerLink]="['/restricted/clientes']" routerLinkActive="link-active" class="nav-link">
             <i class="nav-icon fas fa-users"></i>
@@ -43,6 +46,7 @@
             </p>
           </a>
         </li>
+
         <li class="nav-item">
           <a [routerLink]="['/restricted/fornecedores']" routerLinkActive="link-active" class="nav-link">
             <i class="nav-icon fas fa-users"></i>
@@ -51,6 +55,7 @@
             </p>
           </a>
         </li>
+
         <li class="nav-item">
           <a [routerLink]="['/restricted/usuarios']" routerLinkActive="link-active" class="nav-link">
             <i class="nav-icon fas fa-users"></i>
@@ -59,16 +64,11 @@
             </p>
           </a>
         </li>
+
         <li class="nav-item">
           <a [routerLink]="['/restricted/categorias']" routerLinkActive="link-active" class="nav-link">
             <i class="nav-icon fas fa-layer-group"></i>
             <p>Categorias</p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a [routerLink]="['/restricted/formas-pagamento']" routerLinkActive="link-active" class="nav-link">
-            <i class="nav-icon fas fa-credit-card"></i>
-            <p>Maquininhas</p>
           </a>
         </li>
         <li class="nav-item">
@@ -79,6 +79,7 @@
             </p>
           </a>
         </li>
+
         <li (click)="toggleSideBar(entregas)" class="nav-item" #entregas>
           <a class="nav-link">
             <i class="nav-icon fas fa-motorcycle" style="color: #c2c7d0;"></i>
@@ -104,6 +105,7 @@
             </li>
           </ul>
         </li>
+
         <li (click)="toggleSideBar(financeiro)" class="nav-item" #financeiro>
           <a class="nav-link">
             <i class="nav-icon fas fa-dollar-sign" style="color: #c2c7d0;"></i>
@@ -139,6 +141,7 @@
             </li>
           </ul>
         </li>
+
         <li (click)="toggleSideBar(caixa)" class="nav-item" #caixa>
           <a class="nav-link">
             <i class="nav-icon fas fa-cash-register"></i>
@@ -156,7 +159,7 @@
                 </a>
               </li>
             </ng-container>
-            
+
             <li class="nav-item">
               <a [routerLink]="['/restricted/caixa/tipos']" routerLinkActive="link-active" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
@@ -165,6 +168,7 @@
             </li>
           </ul>
         </li>
+
         <li (click)="toggleSideBar(movition)" class="nav-item" #movition>
           <a class="nav-link">
             <i class="nav-icon fas fa-search-dollar" style="color: #c2c7d0;"></i>
@@ -190,7 +194,5 @@
         </li>
       </ul>
     </nav>
-    <!-- /.sidebar-menu -->
   </div>
-  <!-- /.sidebar -->
 </aside>

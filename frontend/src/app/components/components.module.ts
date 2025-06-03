@@ -17,7 +17,6 @@ import { ModalInvoiceComponent } from './modal-invoice/modal-invoice.component';
 import { ModalHistoricoComponent } from './modal-historico/modal-historico.component';
 import { FilterFormComponent } from './filter-form/filter-form.component';
 import { TimerComponent } from './timer/timer.component';
-import { FormaPagamentoFormComponent } from './forma-pagamento-form/forma-pagamento-form.component';
 import { ModalMovitionComponent } from './modal-movition/modal-movition.component';
 
 import { UtilModule } from '@app/util/util.module';
@@ -72,7 +71,6 @@ export const customCurrencyMaskConfig = {
     ModalHistoricoComponent,
     FilterFormComponent,
     TimerComponent,
-    FormaPagamentoFormComponent,
     TableComponent,
     TiposFormComponent
   ],
@@ -113,7 +111,6 @@ export const customCurrencyMaskConfig = {
     ModalHistoricoComponent,
     FilterFormComponent,
     TimerComponent,
-    FormaPagamentoFormComponent,
     TableComponent,
     TiposFormComponent
   ],
@@ -131,7 +128,6 @@ export const customCurrencyMaskConfig = {
     ModalHistoricoComponent,
     FilterFormComponent,
     TimerComponent,
-    FormaPagamentoFormComponent,
     TableComponent,
     TiposFormComponent
   ],

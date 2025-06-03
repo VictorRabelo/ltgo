@@ -20,23 +20,23 @@ class Produto extends Model
     protected $primaryKey = 'id_produto';
 
     public $timestamps = false;
-    
+
     protected $fillable = [
         'categoria_id',
-        'data_id', 
-        'valor_id', 
-        'frete_id', 
-        'fornecedor_id', 
-        'img', 
+        'data_id',
+        'valor_id',
+        'frete_id',
+        'fornecedor_id',
+        'img',
         'path',
         'invoice_path',
-        'name', 
+        'name',
         'descricao',
         'tracking',
-        'preco', 
-        'unitario', 
-        'und_compradas', 
-        'valor_total', 
+        'preco',
+        'unitario',
+        'und_compradas',
+        'valor_total',
         'tipo',
         'tipo_entrega',
         'status',
@@ -45,7 +45,7 @@ class Produto extends Model
     protected $hidden = [];
 
     protected $casts = [];
-    
+
     public function getPathAttribute()
     {
         if (!isset($this->attributes['path'])) {
@@ -57,7 +57,7 @@ class Produto extends Model
         }
         return null;
     }
-    
+
     public function getInvoicePathAttribute()
     {
         if (!isset($this->attributes['invoice_path'])) {
@@ -70,35 +70,43 @@ class Produto extends Model
         return null;
     }
 
-    public function vendas() {
+    public function vendas()
+    {
         return $this->belongsToMany(Venda::class, 'produto_venda', 'venda_id', 'produto_id')->orderBy('created_at', 'desc');
     }
 
-    public function estoque() {
+    public function estoque()
+    {
         return $this->hasOne(Estoque::class, 'produto_id');
     }
-    
-    public function entregaItem() {
+
+    public function entregaItem()
+    {
         return $this->hasOne(EntregaItem::class, 'produto_id');
     }
 
-    public function categoria() {
+    public function categoria()
+    {
         return $this->hasOne(Categoria::class, 'id_categoria', 'categoria_id');
     }
 
-    public function data() {
+    public function data()
+    {
         return $this->hasOne(Data::class, 'id_data', 'data_id');
     }
 
-    public function valor() {
+    public function valor()
+    {
         return $this->hasOne(Valor::class, 'id_valor', 'valor_id');
     }
 
-    public function frete() {
+    public function frete()
+    {
         return $this->hasOne(Frete::class, 'id_frete', 'frete_id');
     }
 
-    public function fornecedor() {
+    public function fornecedor()
+    {
         return $this->hasOne(Fornecedor::class, 'id_fornecedor', 'fornecedor_id');
     }
 }

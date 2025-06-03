@@ -17,8 +17,6 @@ import { SaleDetalheComponent } from './sales/sale-detalhe/sale-detalhe.componen
 import { CaixaComponent } from './caixa/caixa.component';
 import { EntregaDetalheComponent } from './entregas/entrega-detalhe/entrega-detalhe.component';
 import { EntregasDespesasComponent } from './entregas/entregas-despesas/entregas-despesas.component';
-import { FormasPagamentoComponent } from './formas-pagamento/formas-pagamento.component';
-import { FormasPagamentoDetalheComponent } from './formas-pagamento/formas-pagamento-detalhe/formas-pagamento-detalhe.component';
 
 const routes: Routes = [
 
@@ -33,16 +31,6 @@ const routes: Routes = [
     children: [
       { path: '', component: SalesComponent },
       { path: ':id', component: SaleDetalheComponent },
-    ]
-  },
-  
-  {
-    path: 'formas-pagamento',
-    canActivate: [AuthGuard],
-    data: { roles: [Role.admin, Role.vendedor], animation: 'FormasPagamentoPage' },
-    children: [
-      { path: '', component: FormasPagamentoComponent },
-      { path: ':id', component: FormasPagamentoDetalheComponent },
     ]
   },
 

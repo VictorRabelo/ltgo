@@ -31,13 +31,12 @@ export class SaleFinishComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTiposCaixas();
-    
+
     if (!this.data) {
       this.close();
     }
-    
-    this.dados = this.data;
 
+    this.dados = this.data;
   }
 
   close(params = undefined) {
@@ -46,23 +45,19 @@ export class SaleFinishComponent implements OnInit {
 
   finish() {
 
-    if (!this.checkFinish()) {
-      return;
-    }
+    if (!this.checkFinish()) return;
 
     this.loading = true;
 
     if(!this.dados.caixa) this.dados.caixa = 'geral';
-    
-    this.service.finishSale(this.dados).subscribe(res => {
-      this.close(true);
-    }, error => {
-      console.log(error)
-      this.message.toastError(error.message);
-      this.loading = false;
-    }, () => {
-      this.loading = true;
-    });
+
+    this.service.finishSale(this.dados).subscribe(
+      res => this.close(true),
+      error => {
+        console.log(error)
+        this.message.toastError(error.message);
+        this.loading = false;
+      }, () => this.loading = true);
   }
 
   checkFinish() {
@@ -70,10 +65,12 @@ export class SaleFinishComponent implements OnInit {
       this.message.toastWarning('Tipo de caixa não selecionado!');
       return false;
     }
+
     if (!this.dados.status) {
       this.message.toastWarning('Status da venda não selecionado!');
       return false;
     }
+
     if (!this.dados.pagamento) {
       this.message.toastWarning('Forma de pagamento não selecionado!');
       return false;
@@ -97,7 +94,7 @@ export class SaleFinishComponent implements OnInit {
     this.dados.restante += this.dados.debitar;
     this.dados.pago -= this.dados.debitar;
   }
-  
+
   getTiposCaixas() {
     this.moveService.getAllItem().subscribe(res => {
       this.tiposCaixas = res;

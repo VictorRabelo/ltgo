@@ -93,7 +93,7 @@ export class SaleDetalheComponent implements OnInit {
       this.vendaCurrent.debitar = 0.00;
     }
 
-    const modalRef = this.modalCtrl.open(SaleFinishComponent, { size: 'md', backdrop: 'static' });
+    const modalRef = this.modalCtrl.open(SaleFinishComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.data = Object.assign({}, this.vendaCurrent);
     modalRef.componentInstance.type = 'finish';
     modalRef.result.then(res => {

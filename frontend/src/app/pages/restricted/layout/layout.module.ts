@@ -21,8 +21,6 @@ import { FooterComponent } from './footer/footer.component';
 import { EstoqueComponent } from './estoque/estoque.component';
 import { UsersComponent } from './users/users.component';
 import { EntregasDespesasComponent } from './entregas/entregas-despesas/entregas-despesas.component';
-import { FormasPagamentoComponent } from './formas-pagamento/formas-pagamento.component';
-import { FormasPagamentoDetalheComponent } from './formas-pagamento/formas-pagamento-detalhe/formas-pagamento-detalhe.component';
 import { ClientesComponent } from './clientes/clientes.component';
 import { RelatoriosComponent } from './relatorios/relatorios.component';
 import { FornecedoresComponent } from './fornecedores/fornecedores.component';
@@ -113,8 +111,6 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     EntregaDetalheComponent,
     EntregasDespesasComponent,
     CaixaComponent,
-    FormasPagamentoComponent,
-    FormasPagamentoDetalheComponent
 
   ],
   entryComponents: [
